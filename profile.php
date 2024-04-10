@@ -9,7 +9,7 @@ $profile_data = getProfileData($bdd, $_GET['username']);
 
 if (isset($_POST['profile_change'])) {
     if(verifPassword($_POST['password'], $_POST['confirmpassword'])==0){
-        updateProfile($bdd, $profile_data['username'], $_POST['email'], $_POST['profile_picture'], $_POST['banner'], $_POST['bio'], $_POST['password']);
+        updateProfile($bdd, $profile_data['username'], $_POST['email'], $_FILES['profile_picture'], $_FILES['banner'], $_POST['bio'], $_POST['password']);
     } else {
         echo "Passwords do not match.";
     }
@@ -33,7 +33,11 @@ if (isset($_POST['profile_change'])) {
         crossorigin="anonymous"></script>
     <!-- end bootstrap -->
 </head>
-
+<style>
+    body {
+        font-size: 17px;
+    }
+</style>
 <body>
     <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
@@ -49,7 +53,6 @@ if (isset($_POST['profile_change'])) {
                     ?>
                 </div>
                 <?php
-                $_SESSION['username'] = $profile_data['username'];
                 if (isset($_SESSION['username']) && $_SESSION['username'] == $profile_data['username']) {
                     echo "<button type='button' class='mt-2 btn btn-outline-dark float-end me-2' data-mdb-ripple-color='dark' data-bs-toggle='modal' 
                         data-bs-target='#editProfileModal' style='z-index: 1;'>
@@ -57,13 +60,16 @@ if (isset($_POST['profile_change'])) {
                     </button>";
                 }
                 ?>
-                <div class="ms-3 mb-3" style="margin-top: 55px;">
+            <div class='ms-3'>
+                <div class="mb-2" style="margin-top: 55px;">
                     <?php
                     if (isset($profile_data['username'])) {
-                        echo "<h2>" . $profile_data['username'] . "</h2>"; // Display username in an H1 tag
+                        echo "<h2 class='bold'>" . $profile_data['username'] . "</h2>"; // Display username in an H1 tag
                     }
                     ?>
-                    <div>
+                    </div>
+                    <?php echo  $profile_data['bio']; ?>
+                    <div class="mt-2">
                         <i class="bi bi-cake"></i> Born <?php if (isset($profile_data['birthdate'])) {
                             echo $profile_data['birthdate'] . ".   ";
                         } ?>
@@ -71,9 +77,8 @@ if (isset($_POST['profile_change'])) {
                             echo $profile_data['registration_date'] . ".";
                         } ?>
                     </div>
-                    Bio:
-                    <?php echo $profile_data['bio']; ?>
                 </div>
+
                 <div class="border-top mt-2 pt-2">
                     <?php
                     $posts = getPostsByUser($bdd, $profile_data['username']);
@@ -81,7 +86,9 @@ if (isset($_POST['profile_change'])) {
                         foreach ($posts as $post) {
                             echo "<div class='d-flex border-bottom'>";
                             echo "<div>";
-                            echo "<a href='https://z.balezeau.fr/profile.php?username=" . $post['username'] . "'><img src='assets/img/profile.jpg' class='rounded-1 mt-1 ms-2' style='width: 40px;'></a>";
+                            echo "<a href='https://z.balezeau.fr/profile.php?username=" . $post['username'] . "'>
+                             <div class='rounded-1 mt-1 ms-2' style='width: 40px; height: 40px; background: url(data:image/jpeg;base64," . base64_encode($profile_data['profile_picture']) . ") 
+                            no-repeat center center; background-size: cover;'></div></a>";
                             echo "</div>";
                             echo "<a href='https://z.balezeau.fr/profile.php?post=" . $post['id'] . "'>";
                             echo "<div class='ms-2 mb-2'>";
@@ -109,14 +116,14 @@ if (isset($_POST['profile_change'])) {
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form method="post">
+                    <form method="post" action="profile.php?username=<?php echo $profile_data['username']; ?>" enctype="multipart/form-data">
                         <div class="mb-3">
                             <label for="profile_picture" class="form-label">Profile Picture</label>
-                            <input type="file" class="form-control" id="profile_picture" name="profile_picture">
+                            <input type="file" class="form-control" id="profile_picture" name="profile_picture" accept="image/*">
                         </div>
                         <div class="mb-3">
                             <label for="banner" class="form-label">Banner</label>
-                            <input type="file" class="form-control" id="banner" name="banner">
+                            <input type="file" class="form-control" id="banner" name="banner" accept="image/*">
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
