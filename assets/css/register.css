@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i');
+
+form {
+  width: 100%;
+  max-width: 500px;
+	overflow:hidden;
+}
+
+button:disabled {
+  background-color: #ccc;
+  color: #666;
+  opacity: 0.5;
+}
+
+.steps {
+	width:300%;
+	display:flex;
+	transition:all 300ms ease-in-out;
+}
+
+.steps .step {
+	width:98vw; 
+	padding: 10px 0px 20px 0px;
+}
+
+.steps .step .grid {
+	display:grid;
+	grid-template-columns:1fr 1fr;
+	gap:10px;
+}
+
+.steps .step .date-grid {
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:10px;
+}
+.step.active {
+	opacity: 1;
+  }
+
+.footer {
+  margin-top: 15px;
+	padding:15px 0px;
+	display:flex;
+	justify-content:space-between;
+}
+
+.footer .next:disabled {
+	display:none;
+}
+
+.footer .submit:disabled {
+	display:none;
+}

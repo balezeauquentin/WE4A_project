@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i');
+
+* {
+  margin: auto;
+  padding: 0;
+}
+
+html, body {
+  margin: auto;
+  height: 100%;
+  width: 100%;
+  font-family: "Poppins", sans-serif;
+  font-size: 20px;
+  color:  #000000;
+  background-color: white;
+}

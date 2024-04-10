@@ -1,0 +1,122 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i');
+
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 4%;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    font-family: "Poppins", sans-serif;
+    font-size: 20px;
+    color: #000000;
+}
+
+a {
+    color: #008fee;
+    text-decoration: none;
+}
+
+button {
+    padding: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #008fee;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background-color: #0177c5;
+}
+
+.container {
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 30px 25px 30px 25px;
+    margin-top: 10%;
+    width: 35%;
+    min-width: 500px;
+}
+
+.error {
+    color: red;
+    font-size: 14px;
+    margin-left: 2px;
+}
+
+.create-account {
+    margin-top: 10px;
+    font-size: 16px;
+    text-align: center;
+}
+
+.input-group {
+    position: relative;
+}
+
+.input-group__label {
+    font-size: 15px;
+    display: block;
+    position: absolute;
+    top: 0;
+    margin-top: 10px;
+    line-height: 41px;
+    color: #aaa;
+    left: 5px;
+    padding: 0 5px;
+    transition: line-height 200ms ease-in-out, font-size 200ms ease-in-out, top 200ms ease-in-out;
+    pointer-events: none;
+}
+
+.input-group__input {
+    width: 100%;
+    height: 40px;
+    border: 1px solid #dddddd;
+    border-radius: 5px;
+    padding: 0 8px;
+    margin-top: 10px;
+}
+
+.input-group__input:not(:placeholder-shown)+label,
+.input-group__input:focus+label {
+    background-color: white;
+    line-height: 10px;
+    opacity: 1;
+    font-size: 10px;
+    top: -5px;
+}
+
+.input-group__input:focus {
+    outline: none;
+    border: 1px solid #0086e4;
+}
+
+.input-group__input:focus+label {
+    color: #0086e4;
+}
+
+.inputs {
+    margin-bottom: 30px;
+}
+
+input.invalid {
+    background-color: #ffdddd;
+  }
+
+.footer {
+    margin-top: 15px;
+    padding: 15px 0px;
+	display:flex;
+	justify-content:center;
+}

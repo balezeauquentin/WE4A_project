@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once('connection.php');
+require_once('assets/phptools/connection.php');
 $activePage = 'main';
 ?>
 <!doctype html>
@@ -11,8 +11,8 @@ $activePage = 'main';
     <title>Réseau Z - Page principale</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous" defer></script>
-    <script src="jquery-3.7.1.min.js"defer></script>
-    <script src="main_page.js"defer></script>
+    <script src="assets/js/jquery-3.7.1.min.js"defer></script>
+    <script src="assets/js/main_page.js"defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     
   </head>
@@ -27,7 +27,7 @@ $activePage = 'main';
               height: 100vh;
             }
           </style>
-        <img class="rounded-circle mt-3 mx-auto d-block " width = "40" height = "40" src="https://z.balezeau.fr/assets/img/logo.png">
+        <img class="rounded-circle mt-3 mx-auto d-block " width = "40" height = "40" src="assets/img/favicon/logo.png">
 
         <hr>
           <ul class="nav nav-pills flex-column mb-auto">
