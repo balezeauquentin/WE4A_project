@@ -27,7 +27,7 @@ $activePage = 'main';
               height: 100vh;
             }
           </style>
-        <img class="rounded-circle mt-3 mx-auto d-block " width = "40" height = "40" src="assets/img/favicon/logo.png">
+        <img class="rounded-circle mt-3 mx-auto d-block " width = "40" height = "40" src="assets/img/logo.png">
 
         <hr>
           <ul class="nav nav-pills flex-column mb-auto">
