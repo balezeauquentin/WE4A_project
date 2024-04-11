@@ -1,5 +1,7 @@
 
-<?php require 'template_top.php'; ?>
+<?php 
+$pageTitle = 'Home';
+require 'template_top.php'; ?>
 
 <!-- The content should be here -->
 
