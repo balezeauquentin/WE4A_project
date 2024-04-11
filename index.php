@@ -1,9 +1,8 @@
 
 <?php 
 $pageTitle = 'Home';
-require 'template_top.php'; ?>
+require '/assets/phptools/template_top.php'; ?>
 
-<!-- The content should be here -->
 
 <!-- Tab navigation -->
 <ul class="nav nav-tabs justify-content-center" id="pills-tab" role="tablist">
@@ -20,4 +19,4 @@ require 'template_top.php'; ?>
 
 <div id ="post-container"></div>
 
-<?php require 'template_bottom.php'; ?>
+<?php require '/assets/phptools/template_bot.php'; ?>

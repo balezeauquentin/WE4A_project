@@ -26,14 +26,14 @@ require 'assets/phptools/template_top.php';
 
 <div class="container py-5 h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
-        <div class="col col-lg-9 col-xl-7">
+        <div class="">
             <div class="border">
                 <?php
                 echo "<div class='text-white d-flex flex-row' style='background: url(\"data:image/jpeg;base64," . base64_encode($profile_data['banner']) . "\") no-repeat center center / cover; height:200px;'>";
                 ?>
                 <?php
                 echo "<div class='rounded' style='width: 120px; height: 120px; overflow: hidden; margin-top:120px; margin-left:30px'>";
-                echo "<img src='data:image/jpeg;base64," . base64_encode($profile_data['profile_picture']) . "' alt='Profile picture' style='height:100%; width:100%; object-fit: cover; z-index: 1'>";
+                echo "<img src='" . $profile_data['profile_picture'] . "' alt='Profile picture' style='height:100%; width:100%; object-fit: cover; z-index: 1'>";
                 echo "</div>";
                 ?>
             </div>
@@ -66,7 +66,7 @@ require 'assets/phptools/template_top.php';
             </div>
             <div class="border-top mt-2 pt-2">
                 <?php
-                $posts = getPostsByUser($bdd, $profile_data['username']);
+                $posts = getPostsByUser($bdd, $profile_data['id']);
                 if ($posts) {
                     foreach ($posts as $post) {
                         echo "<div class='d-flex border-bottom'>";

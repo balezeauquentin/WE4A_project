@@ -22,14 +22,14 @@ $activePage = 'main';
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="assets/js/jquery-3.7.1.min.js" defer></script>
     <script src="assets/js/main_page.js" defer></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
 </head>
 
 <body style="overflow: hidden;">
     <div class="container-fluid">
         <!-- Container principal -->
+
         <div class="row">
+            <div class="col-2"></div>
             <!-- Row contenant 2 colonnes (sidebar | navbar+main) -->
             <div class="col-2 p-0 vh-100">
                 <!-- Sidebar -->
@@ -66,6 +66,7 @@ $activePage = 'main';
                     <?php endif; ?>
                 </div>
             </div>
+            <div class="col-4 p-0">
                 <!-- Modal - Se connecter -->
                 <div class="modal fade" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="modalLoginLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
