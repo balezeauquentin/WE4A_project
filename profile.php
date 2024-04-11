@@ -15,7 +15,7 @@ if (isset($_POST['profile_change'])) {
     }
 }
 $pageTitle = $profile_data['username'];
-require 'template_top.php';
+require 'assets/phptools/template_top.php';
 ?>
 
 <style>
@@ -141,4 +141,4 @@ require 'template_top.php';
     </div>
 </div>
 
-<?php require 'template_bottom.php'; ?>
+<?php require 'assets/phptools/template_bot.php'; ?>
