@@ -1,7 +1,22 @@
 <?php
 
+global $bdd;
+try {
+   $bdd = new PDO('mysql:host=localhost;dbname=Z;charset=utf8', 'if3', 'o4IQvC9u3-x77pSf', [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+} catch (Exception $e) {
+   die('Error : ' . $e->getMessage()); // print the error message
+}
+function session_start_secure() {
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
+}
+
 function validateUserInput($data)
 {
+    if (empty($data)) {
+        return 0;
+    }
     $data = trim($data);
     $data = stripslashes($data);
     $data = addslashes($data);
@@ -18,8 +33,9 @@ function verifPassword($password, $confirmpassword)
 }
 
 function getPostsByUser ($bdd, $id) {
+    
     try {
-        $sql = "SELECT * FROM posts WHERE id_user = ?";
+        $sql = "SELECT posts.*, users.username, users.profile_picture_path FROM posts INNER JOIN users ON posts.id_user = users.id WHERE posts.id_user = ?";
         $stmt = $bdd->prepare($sql);
         $stmt->execute([$id]);
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -27,51 +43,7 @@ function getPostsByUser ($bdd, $id) {
     } catch (PDOException $e) {
         die('Error: ' . $e->getMessage());
     }
-}
 
-function getProfileData ($bdd, $username) {
-    try {
-        $sql = "SELECT * FROM users WHERE username = ?";
-        $stmt = $bdd->prepare($sql);
-        $stmt->execute([$username]);
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $result;
-    } catch (PDOException $e) {
-        die('Error: ' . $e->getMessage());
-    }
-}
-
-function updateProfile ($bdd, $username, $email, $profile_picture, $banner, $bio, $password) {
-    validateUserInput($email);
-    validateUserInput($bio);
-    validateUserInput($password);
-    // Define the target directory and file names
-    $target_dir = "/user_img/" . $username . "/";
-    $profile_picture_name = "profile_picture." . pathinfo($profile_picture['name'], PATHINFO_EXTENSION);
-    $banner_name = "banner." . pathinfo($banner['name'], PATHINFO_EXTENSION);
-
-    // Create the target directory if it doesn't exist
-    if (!file_exists($target_dir)) {
-        if (!mkdir($target_dir, 0777, true)) {
-            die('Failed to create directory');
-        }
-    }
-
-    // Move the uploaded files to the target directory and rename them
-    move_uploaded_file($profile_picture['tmp_name'], $target_dir . $profile_picture_name);
-    move_uploaded_file($banner['tmp_name'], $target_dir . $banner_name);
-
-    // Store the paths to the images in the database
-    $profile_picture_path = $target_dir . $profile_picture_name;
-    $banner_path = $target_dir . $banner_name;
-
-    try {
-        $sql = "UPDATE users SET email = ?, profile_picture_path = ?, banner_path = ? WHERE username = ?";
-        $stmt = $bdd->prepare($sql);
-        $stmt->execute([$email, $profile_picture_path, $banner_path, $username]);
-    } catch (PDOException $e) {
-        die('Error: ' . $e->getMessage());
-    }
 }
 
 function createUser ($bdd, $username, $firstname, $lastname, $birthdate, $email, $password) {

@@ -1,7 +1,7 @@
 
 <?php 
 $pageTitle = 'Home';
-require '/assets/phptools/template_top.php'; ?>
+require 'assets/phptools/template_top.php'; ?>
 
 
 <!-- Tab navigation -->
@@ -19,4 +19,4 @@ require '/assets/phptools/template_top.php'; ?>
 
 <div id ="post-container"></div>
 
-<?php require '/assets/phptools/template_bot.php'; ?>
+<?php require 'assets/phptools/template_bot.php';?>
