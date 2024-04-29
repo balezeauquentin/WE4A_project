@@ -1,30 +1,31 @@
 <?php
-require_once dirname(__FILE__) . '/databaseFunction.php';
+
+require_once dirname(__FILE__) . '/databaseFunctions.php';
+session_start_secure();
 
 if (isset($_POST['user']) && isset($_POST['password'])) {
-    $email = validateUserInput($_POST['user']);
+    $username = validateUserInput($_POST['user']);
     $password = validateUserInput($_POST['password']);
-    if (!empty($email) and !empty($password)) {
-        $req = $db->prepare("SELECT id,email,username,password,profile_picture_path,token,isAdmin FROM users WHERE username = ?");
-        $req->execute(array($email));
+    if (!empty($username) and !empty($password)) {
+        $req = $bdd->prepare("SELECT id,email, username,password,profile_picture_path,admin,isbanned FROM users WHERE username = ?");
+        $req->execute(array($username));
         $isUserExist = $req->rowCount();
         if ($isUserExist) {
             $userData = $req->fetch();
             if ($userData['isbanned'] == 0) {
-                if (password_verify($password, $user['password'])) {
-                    if ($user['verified']) {
+                if (password_verify($password, $userData['password'])) {
+                    //if ($user['verified']) {
                         $_SESSION['id'] = $userData['id'];
-                        $_SESSION['email'] = $userData['email'];
                         $_SESSION['username'] = $userData['username'];
-                        if (empty($user['profile_picture_path'])) {
+                        if (empty($username['profile_picture_path'])) {
                             $_SESSION['profile_picture_path'] = null;
                         } else {
                             $_SESSION['profile_picture_path'] = $userData['profile_picture_path'];
                         }
                         $_SESSION['admin'] = $userData['admin'];
-                    } else {
-                        $error = "Your account is not verified. Please check your email.";
-                    }
+                    //} else {
+                        //$error = "Your account is not verified. Please check your email.";
+                    //}
                 } else {
                     $error = "Invalid password or username.";
                 }

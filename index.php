@@ -3,7 +3,6 @@
 $pageTitle = 'Home';
 require 'assets/phptools/template_top.php'; ?>
 
-
 <!-- Tab navigation -->
 <ul class="nav nav-tabs justify-content-center" id="pills-tab" role="tablist">
   <li class="nav-item">

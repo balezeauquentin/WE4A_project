@@ -6,7 +6,7 @@ if (isset($_POST['confirm'])) {
 	$username = validateUserInput($_POST['username']);
 	$firstname = validateUserInput($_POST['firstname']);
 	$lastname = validateUserInput($_POST['lastname']);
-	$email = $_POST['email'];
+	$username = $_POST['email'];
 	$password = validateUserInput($_POST['password']);
 	$confirm_password = validateUserInput($_POST['confirm_password']);
 	$day = validateUserInput($_POST['day']);
@@ -19,7 +19,7 @@ if (isset($_POST['confirm'])) {
 	// Register user
 	try {
 		$request = $bdd->prepare("INSERT INTO users (username, firstname, lastname, birthdate, email, password) VALUES (?, ?, ?, ?, ?, ?)");
-		$request->execute([$username, $firstname, $lastname, $birthdate, $email, $passwordHash]);
+		$request->execute([$username, $firstname, $lastname, $birthdate, $username, $passwordHash]);
 	} catch (PDOException $e) {
 		die('Error: ' . $e->getMessage());
 	}

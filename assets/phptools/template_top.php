@@ -21,16 +21,8 @@ session_start_secure();
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"
         defer></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <script src="/WE4A_project/js/template.js" defer></script>
-    <?php if ($pageTitle == "Accueil") {
-        echo "<script src='/WE4A_project/js/index.js' defer></script>";
-    } ?>
-    <?php if ($pageTitle == "Profil") {
-        echo "<script src='/WE4A_project/js/profile.js' defer></script>";
-    } ?>
-    <?php if ($pageTitle == "Paramètres") {
-        echo "<script src='/WE4A_project/js/settings.js' defer></script>";
-    } ?>
+    <script src="/WE4A_PROJECT/assets/js/jquery-3.7.1.min.js" defer></script>
+    <script src="/WE4A_PROJECT/assets/js/template.js" defer></script>
 </head>
 
 <body>
@@ -47,7 +39,7 @@ session_start_secure();
                         <img class="rounded-circle mt-3 mx-auto d-block " width="40" height="40"
                             src="assets/img/logo.png">
                     </a>
-                    <hr>    
+                    <hr>
                     <ul class="nav nav-pills flex-column mb-auto">
                         <li class="nav-item">
                             <a class="nav-link active" href="/WE4A_project/index.php">Home</a>
@@ -58,15 +50,29 @@ session_start_secure();
                         <li class="nav-item">
                             <a class="nav-link" href="/WE4A_project/message.php">Messages</a>
                         </li>
+                        <?php
+                        unset ($_SESSION['id']);
+                        if (isset($_SESSION['id'])): ?>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/WE4A_project/profile.php?username=<?php echo "test" ?>"><i
+                                        class="bi bi-person-fill"></i>Profil</a>
+                            </li>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#modalPost">
+                                Poster
+                            </button>
+                        <?php endif; ?>
                     </ul>
                     <hr>
-                    <?php if (isset($_SESSION['id'])): ?>
+                    
+                    <?php
+                    if (isset($_SESSION['id'])): ?>
                         <div class="dropdown">
                             <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle"
                                 id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="img/avatar/<?php echo $_SESSION['avatar']; ?>" alt="" width="32" height="32"
+                                <img src="img_user/avatar/<?php echo $_SESSION['avatar']; ?>" alt="" width="48" height="48"
                                     class="rounded-circle me-3">
-                                <strong><?php echo $_SESSION['pseudo']; ?></strong>
+                                <strong><?php echo $_SESSION['username'];?></strong>
                             </a>
                             <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
                                 <li><a class="dropdown-item" href="#">Paramètres</a></li>
@@ -77,6 +83,7 @@ session_start_secure();
                                 <img src="img/avatar/utilisateur.png" alt="" width="32" height="32"
                                     class="rounded-circle me-3">
                                 <li><a id="logout-button" class="dropdown-item" href="#">Se déconnecter</a></li>
+                                
                             </ul>
                         </div>
                     <?php else: ?>
@@ -85,6 +92,29 @@ session_start_secure();
                             <strong>Se connecter</strong>
                         </a>
                     <?php endif; ?>
+                </div>
+            </div>
+            <!-- Modal - Poster -->
+            <!-- Modal -->
+            <div class="modal fade" id="modalPost" tabindex="-1" role="dialog" aria-labelledby="modalPostLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <form id="formPostId" class="formPost" method="POST" action="">
+                            <div class="modal-header border-bottom-0">
+                                <h5 class="modal-title" id="modalPostLabel">Nouveau post</h5>
+                            </div>
+                            <div class="modal-body">
+                                <textarea id="textAreaPostId" name="textAreaPostId" class="form-control" placeholder=""
+                                    required style="resize: none; height:30vh"></textarea>
+                            </div>
+                            <div class="modal-footer border-top-0">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                <input type="submit" class="btn btn-primary" name="postSubmit"
+                                    value="Publier le post" />
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
             <!-- Modal - Se connecter -->
@@ -98,12 +128,12 @@ session_start_secure();
                             </div>
                             <div class="modal-body">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="username" name="user" placeholder=""
+                                    <input type="text" class="form-control" id="username-l" name="user" placeholder=""
                                         required />
                                     <label for="username" class="form-label">Username</label>
                                 </div>
                                 <div class="form-floating mb-3">
-                                    <input type="password" class="form-control" id="password" name="password"
+                                    <input type="password" class="form-control" id="password-l" name="password"
                                         placeholder="" required />
                                     <label for="password" class="form-label">Password</label>
                                 </div>
@@ -140,11 +170,11 @@ session_start_secure();
                                 <div class="row mb-3">
                                     <div class="col">
                                         <label for="Username" class="form-label">Username</label>
-                                        <input type="text" class="form-control" id="Username" name="Username-r">
+                                        <input type="text" class="form-control" id="sername" name="username-r">
                                     </div>
                                     <div class="col">
                                         <label for="mail" class="form-label">E-mail</label>
-                                        <input type="text" class="form-control" id="mail" name="mail1-r">
+                                        <input type="text" class="form-control" id="mail" name="mail-r">
                                         <div class="form-text">An email will be sent.</div>
                                     </div>
                                 </div>
@@ -180,11 +210,11 @@ session_start_secure();
                                 <hr>
                                 <div class="row mb-3">
                                     <div class="col">
-                                        <label for="birthdate" class="form-label">Day</label>
-                                        <input type="text" class="form-control" id="birthdate" name="birthdate-r">
+                                        <label for="day" class="form-label">Day</label>
+                                        <input type="text" class="form-control" id="birthdate" name="day-r">
                                     </div>
                                     <div class="col">
-                                        <label for="phone" class="form-label">Month</label>
+                                        <label for="day" class="form-label">Month</label>
                                         <select class="form-control" id="month" name="month-r">
                                             <option value=""> </option>
                                             <option value="1">January</option>
@@ -202,8 +232,8 @@ session_start_secure();
                                         </select>
                                     </div>
                                     <div class="col">
-                                        <label for="phone" class="form-label">Year</label>
-                                        <input type="text" class="form-control" id="phone" name="phone-r">
+                                        <label for="year" class="form-label">Year</label>
+                                        <input type="text" class="form-control" id="year" name="year-r">
                                     </div>
 
                                 </div>
@@ -229,7 +259,7 @@ session_start_secure();
                                             data-sitekey="6LeClLIpAAAAAIt1EesWjZ_TEuMne4QRk-TTuBQ2"></div>
                                     </div>
                                 </div>
-                                <div id="error-message-r" class="text-danger text-align-center"></div>
+                                <div id="error-message-r" class="text-danger"></div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
