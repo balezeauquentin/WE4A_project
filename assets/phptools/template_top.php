@@ -42,13 +42,13 @@ session_start_secure();
                     <hr>
                     <ul class="nav nav-pills flex-column mb-auto">
                         <li class="nav-item">
-                            <a class="nav-link active" href="/WE4A_project/index.php">Home</a>
+                            <a class="nav-link <?php if ($pageTitle === "Home") echo "active"; ?>" href="/WE4A_project/index.php">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/WE4A_project/notification.php">Notifications</a>
+                            <a class="nav-link <?php if ($pageTitle === "Notifications") echo "active"; ?>" href="/WE4A_project/notifications.php">Notifications</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/WE4A_project/message.php">Messages</a>
+                            <a class="nav-link <?php if ($pageTitle === "Messages") echo "active"; ?>" href="/WE4A_project/message.php">Messages</a>
                         </li>
                         <?php
                         unset ($_SESSION['id']);
