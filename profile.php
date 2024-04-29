@@ -7,11 +7,11 @@ require_once dirname(__FILE__) . '/assets/phptools/profileTools.php';
 require_once dirname(__FILE__) . '/assets/phptools/postmanager.php';
 
 // Assuming $bdd is your PDO instance and $_GET['id'] is the id of the user you want to fetch
-$profile_data = getProfileData($bdd, $_GET['username']);
+$profile_data = getProfileData($db, $_GET['username']);
 
 if (isset($_POST['profile_change'])) {
     if (verifPassword($_POST['password'], $_POST['confirmpassword']) == 0) {
-        updateProfile($bdd, $profile_data['username'], $_POST['email'], $_FILES['profile_picture'], $_FILES['banner'], $_POST['bio'], $_POST['password'], $profile_data['profile_picture_path'], $profile_data['banner_path']);
+        updateProfile($db, $profile_data['username'], $_POST['email'], $_FILES['profile_picture'], $_FILES['banner'], $_POST['bio'], $_POST['password'], $profile_data['profile_picture_path'], $profile_data['banner_path']);
     } else {
         echo "Passwords do not match.";
     }
@@ -53,7 +53,7 @@ if (isset($_POST['profile_change'])) {
             <?php
             $_SESSION['username'] = $profile_data['username'];  
             if (!empty($profile_data['username'])) {
-                if (isset($_SESSION['username']) && $_SESSION['username'] == $profile_data['username']) {
+                if (isset($_SESSION['username']) && $_SESSION['username'] === $profile_data['username']) {
                     echo "<button type='button' class='mt-2 btn btn-outline-dark float-end me-2' data-mdb-ripple-color='dark' data-bs-toggle='modal' 
                         data-bs-target='#editProfileModal'>
                         Edit profile
@@ -94,9 +94,9 @@ if (isset($_POST['profile_change'])) {
                 }
                 ?>
             </div>
-            <?php
-                getPostsUser($bdd, $profile_data['id']);
-            ?>
+            <div id="posts-container">
+                <!--TODO: get posts by user-->
+            </div>
         </div>
     </div>
 </div>

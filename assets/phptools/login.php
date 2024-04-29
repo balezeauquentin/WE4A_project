@@ -7,7 +7,7 @@ if (isset($_POST['user']) && isset($_POST['password'])) {
     $username = validateUserInput($_POST['user']);
     $password = validateUserInput($_POST['password']);
     if (!empty($username) and !empty($password)) {
-        $req = $bdd->prepare("SELECT id,email, username,password,profile_picture_path,admin,isbanned FROM users WHERE username = ?");
+        $req = $db->prepare("SELECT id,email, username,password,profile_picture_path,admin,isbanned FROM users WHERE username = ?");
         $req->execute(array($username));
         $isUserExist = $req->rowCount();
         if ($isUserExist) {

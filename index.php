@@ -16,6 +16,8 @@ require 'assets/phptools/template_top.php'; ?>
   </li>
 </ul>
 
-<div id ="post-container"></div>
+<div id ="post-container">
+  
+</div>
 
 <?php require 'assets/phptools/template_bot.php';?>

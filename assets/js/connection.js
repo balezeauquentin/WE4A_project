@@ -4,7 +4,7 @@ $('#formLoginId').submit(function (e) {
     var formData = $(this).serialize();
     $.ajax({
         type: 'POST',
-        url: '/WE4A_PROJECT/assets/phptools/login.php',
+        url: '/WE4A_project/assets/phptools/login.php',
         data: formData,
         success: function (response) {
             if (response.error) {
@@ -23,7 +23,7 @@ $('#formRegisterId').submit(function (e) {
     var formData = $(this).serialize();
     $.ajax({
         type: 'POST',
-        url: '/WE4A_PROJECT/assets/phptools/register.php',
+        url: '/WE4A_project/assets/phptools/register.php',
         data: formData,
         success: function (response) {
             if (response.error) {
