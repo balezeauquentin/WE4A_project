@@ -25,24 +25,24 @@ if (isset($_POST['username-r']) && isset($_POST['password-r']) && isset($_POST['
                 $country = validateUserInput($_POST['country-r']);
                 if (!empty($username) && !empty($password) && !empty($email) && !empty($firstname) && !empty($lastname) && !empty($date) && !empty($address) && !empty($city) && !empty($zipcode) && !empty($country)){
 
-                    $req = $bdd->prepare("SELECT id FROM users WHERE username = ?");
+                    $req = $db->prepare("SELECT id FROM users WHERE username = ?");
                     $req->execute(array($username));
                     $isUserExist = $req->rowCount();
 
                     if (!$isUserExist) {
 
-                        $req = $bdd->prepare("SELECT id FROM users WHERE email = ?");
+                        $req = $db->prepare("SELECT id FROM users WHERE email = ?");
                         $req->execute(array($email));
                         $isEmailExist = $req->rowCount();
 
                         if (!$isEmailExist) {
 
                             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-                            $req = $bdd->prepare("INSERT INTO users (username, password, email, registration_date) VALUES (?, ?, ?, NOW())");
+                            $req = $db->prepare("INSERT INTO users (username, password, email, registration_date) VALUES (?, ?, ?, NOW())");
                             $req->execute(array($username, $hashed_password, $email));
-                            $userId = $bdd->lastInsertId();
+                            $userId = $db->lastInsertId();
 
-                            $req = $bdd->prepare("INSERT INTO user_info (id_user, firstname, lastname, birthdate, address, city, zip_code, country) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                            $req = $db->prepare("INSERT INTO user_info (id_user, firstname, lastname, birthdate, address, city, zip_code, country) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
                             $req->execute(array($userId, $firstname, $lastname, $date, $address, $city, $zipcode, $country));
 
                             $success = "Registration successful.";

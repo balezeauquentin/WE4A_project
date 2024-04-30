@@ -18,7 +18,7 @@ if (isset($_POST['confirm'])) {
 	}
 	// Register user
 	try {
-		$request = $bdd->prepare("INSERT INTO users (username, firstname, lastname, birthdate, email, password) VALUES (?, ?, ?, ?, ?, ?)");
+		$request = $db->prepare("INSERT INTO users (username, firstname, lastname, birthdate, email, password) VALUES (?, ?, ?, ?, ?, ?)");
 		$request->execute([$username, $firstname, $lastname, $birthdate, $username, $passwordHash]);
 	} catch (PDOException $e) {
 		die('Error: ' . $e->getMessage());
