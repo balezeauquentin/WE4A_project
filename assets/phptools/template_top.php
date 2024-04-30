@@ -21,8 +21,8 @@ session_start_secure();
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"
         defer></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <script src="/WE4A_PROJECT/assets/js/jquery-3.7.1.min.js" defer></script>
-    <script src="/WE4A_PROJECT/assets/js/template.js" defer></script>
+    <script src="/WE4A_project/assets/js/jquery-3.7.1.min.js" defer></script>
+    <script src="/WE4A_project/assets/js/template.js" defer></script>
 </head>
 
 <body>
