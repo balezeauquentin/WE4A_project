@@ -1,6 +1,7 @@
 <?php
 require_once dirname(__FILE__) . '/databaseFunctions.php';
 session_start_secure();
+
 ?>
 
 
@@ -43,19 +44,26 @@ session_start_secure();
                     <hr>
                     <ul class="nav nav-pills flex-column mb-auto">
                         <li class="nav-item">
-                            <a class="nav-link <?php if ($pageTitle === "Home") echo "active"; ?>" href="/WE4A_project/index.php">Home</a>
+                            <a class="nav-link <?php if ($pageTitle === "Home")
+                                echo "active"; ?>"
+                                href="/WE4A_project/index.php">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link <?php if ($pageTitle === "Notifications") echo "active"; ?>" href="/WE4A_project/notifications.php">Notifications</a>
+                            <a class="nav-link <?php if ($pageTitle === "Notifications")
+                                echo "active"; ?>"
+                                href="/WE4A_project/notifications.php">Notifications</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link <?php if ($pageTitle === "Messages") echo "active"; ?>" href="/WE4A_project/message.php">Messages</a>
+                            <a class="nav-link <?php if ($pageTitle === "Messages")
+                                echo "active"; ?>"
+                                href="/WE4A_project/message.php">Messages</a>
                         </li>
                         <?php
-                        unset ($_SESSION['id']);
+
                         if (isset($_SESSION['id'])): ?>
                             <li class="nav-item">
-                                <a class="nav-link" href="/WE4A_project/profile.php?username=<?php echo "test" ?>"><i
+                                <a class="nav-link"
+                                    href="/WE4A_project/profile.php?username=<?php echo $_SESSION['username'] ?>"><i
                                         class="bi bi-person-fill"></i>Profil</a>
                             </li>
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
@@ -65,26 +73,25 @@ session_start_secure();
                         <?php endif; ?>
                     </ul>
                     <hr>
-                    
+
                     <?php
                     if (isset($_SESSION['id'])): ?>
                         <div class="dropdown">
                             <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle"
                                 id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="img_user/avatar/<?php echo $_SESSION['avatar']; ?>" alt="" width="48" height="48"
-                                    class="rounded-circle me-3">
-                                <strong><?php echo $_SESSION['username'];?></strong>
+                                <div class='ms-2 me-2' style='width: 50px; height: 50px; '>
+                                    <img src='<?php echo  $_SESSION['profile_picture_path']; ?>' alt='' class="rounded"
+                                        style='height:100%; width:100%; object-fit: cover;'>
+                                </div>
+                                <strong class="fs-4"><?php echo $_SESSION['username']; ?></strong>
                             </a>
                             <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
-                                <li><a class="dropdown-item" href="#">Paramètres</a></li>
-                                <li><a class="dropdown-item" href="#">Support</a></li>
+                                <li><a class="dropdown-item" href="#">Settings</a></li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <img src="img/avatar/utilisateur.png" alt="" width="32" height="32"
-                                    class="rounded-circle me-3">
-                                <li><a id="logout-button" class="dropdown-item" href="#">Se déconnecter</a></li>
-                                
+                                <li><a id="logout-button" class="dropdown-item" href="#">Logout</a></li>
+
                             </ul>
                         </div>
                     <?php else: ?>

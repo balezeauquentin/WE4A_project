@@ -35,3 +35,22 @@ $('#formRegisterId').submit(function (e) {
         }
     });
 });
+
+/* Login */
+$('#logout-button').click(function (e) {
+    e.preventDefault();
+    var formData = $(this).serialize();
+    $.ajax({
+        type: 'POST',
+        url: '/WE4A_project/assets/phptools/logout.php',
+        data: formData,
+        success: function (response) {
+            if (response.error) {
+                $('#error-message').text(response.message);
+            }
+            setTimeout(function () {
+                location.reload();
+            });
+        }
+    });
+});

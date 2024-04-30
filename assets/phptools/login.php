@@ -15,9 +15,11 @@ if (isset($_POST['user']) && isset($_POST['password'])) {
             if ($userData['isbanned'] == 0) {
                 if (password_verify($password, $userData['password'])) {
                     //if ($user['verified']) {
+                        $error = "You are now logged in.";
                         $_SESSION['id'] = $userData['id'];
                         $_SESSION['username'] = $userData['username'];
-                        if (empty($username['profile_picture_path'])) {
+                        $_SESSION['profile_picture_path'] = $userData['profile_picture_path'];
+                        if (empty($_SESSION['profile_picture_path'])) {
                             $_SESSION['profile_picture_path'] = null;
                         } else {
                             $_SESSION['profile_picture_path'] = $userData['profile_picture_path'];
