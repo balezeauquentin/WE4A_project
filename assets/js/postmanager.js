@@ -22,9 +22,8 @@ function insertPost(postInfo, element) {
     </div>
     <div class='d-flex'>
         <a href='#' class='ms-5 me-5 text-dark text-decoration-none'> <i class="bi bi-heart"></i> ${postInfo}.like_count</a>
-        <!-- Toggle the modal of template top cuz it's the same one. --> 
-        <a href='#' class='me-5  text-dark text-decoration-none'><i class="bi bi-arrow-repeat"></i></a>
-        <a href='#' class=' text-dark text-decoration-none' data-bs-toggle='modal' data-bs-target='#modalPost'><i class="bi bi-chat-left-text"></i></a>
+        <a href='#' class=' text-dark text-decoration-none' data-bs-toggle='modal' data-bs-target='#modalPost'> <i class="bi bi-chat-left-text"></i></a>
+        <a href='#' class='me-5 text-dark text-decoration-none'><i class="bi bi-arrow-repeat"></i></a>
     </div>
 </div>`;
 
@@ -34,12 +33,12 @@ function insertPost(postInfo, element) {
 function RandomPost(token) {
     start = $('#posts-container .post').length;
     $.ajax({
-        url: "php_tool/postManager.php",
+        url: "assets/phptools/postmanager.php",
         type: 'GET',
         data: {
-            getRandomPosts: true,
-            start: start,
-            token: token
+            getRandomPost: true,
+            token: token,
+            start: start
         },
         success: function (response) {
             var responses = JSON.parse(response);
@@ -55,10 +54,11 @@ function RandomPost(token) {
 function PostByUser(){
     start = $('#posts-container .post').length;
     $.ajax({
-        url: "php_tool/postManager.php",
+        url: "assets/phptools/postmanager.php",
         type: 'GET',
         data: {
-            getPostsByUser: true
+            getPostByUser: true,
+            start: start,
         },
         success: function (response) {
             var responses = JSON.parse(response);
@@ -82,18 +82,17 @@ $(document).ready(function () {
         sessionStorage.setItem('token', token);
     }
 
-    /* Load more posts */
-    $('#posts-container').on('scroll', function () {
-        if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
-            ListRandomPosts(token);
-        }
-    });
+    if (window.location.pathname == '/WE4A_project/profile.php') {
+        PostByUser();
+    }
+    if (window.location.pathname == '/WE4A_project/index.php') {
+        RandomPost(token);  
+        $('#posts-container').on('scroll', function () {
+            if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
+                RandomPost(token);
+            }
+        });
+    }
+
 });
 
-if (window.location.pathname == '/profile.php') {
-    PostByUser();
-}
-else if (window.location.pathname == '/index.php') {
-    RandomPost();
-}
-    

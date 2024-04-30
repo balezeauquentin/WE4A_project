@@ -1,5 +1,7 @@
 <?php
 
+require_once dirname(__FILE__) . '/dbconnection.php';
+
 function getPostInfo($post)
 {
     global $db;
@@ -9,7 +11,6 @@ function getPostInfo($post)
     $avatar = !empty($post['avatar']) ? "/WE4A_project/img/user/" . $post['id_user'] . '/' . $post['avatar'] : "/WE4A_project/img/icon/utilisateur.png";
 
     //TODO: get picture path
-
     $postInfo = [
         'id' => $post['id'],
         'id_user' => $post['id_user'],
@@ -21,7 +22,6 @@ function getPostInfo($post)
         'like_count' => $post['like_count'],
         'comment_count' => $post['comment_count']
     ];
-
     return $postInfo;
 }
 
@@ -31,10 +31,10 @@ function getPostByUser($id_user)
     $query = $db->prepare("
     SELECT users.username, users.profile_picture_path, posts.*, 
     (SELECT COUNT(*) FROM likes WHERE likes.id_post = posts.id) as like_count
-FROM users 
-INNER JOIN posts ON users.id = posts.id_user 
-WHERE users.id = :id_user 
-ORDER BY posts.id DESC
+    FROM users 
+    INNER JOIN posts ON users.id = posts.id_user 
+    WHERE users.id = :id_user 
+    ORDER BY posts.id DESC
     ");
     $query->bindParam(':id_user', $id_user);
     $query->execute();
@@ -80,7 +80,6 @@ function getPostById($id)
             $post['content'] = validateSqlOutput($post['content']);
             $postInfo = getPostInfo($post);
         }
-
         echo json_encode($postInfo);
     } else {
         echo json_encode(array('error' => true, 'message' => 'Post not found'));
@@ -99,12 +98,11 @@ function getRandomPost($start, $token)
     LEFT JOIN likes ON posts.id = likes.id_post AND likes.id_user = :id 
     ORDER BY RAND(:seed)
     LIMIT 10 OFFSET :offset");
-    $query->bindValue(':id', $_SESSION['id'], PDO::PARAM_INT);
+    $query->bindValue(':id', 1, PDO::PARAM_INT);
     $query->bindValue(':seed', $token);
     $query->bindValue(':offset', $start, PDO::PARAM_INT);
     $query->execute();
     $posts = $query->fetchAll();
-
     $listPosts = array();
     foreach ($posts as $post) {
         $post['content'] = validateSqlOutput($post['content']);
@@ -125,7 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             getPostByUser($_GET['userId']);
         }
     }
-    if (isset($_GET['getListRandomPosts'])) {
+    if (isset($_GET['getRandomPost'])) {
         if (isset($_GET['start'])) {
             getRandomPost($_GET['start'], $_GET['token']);
         }

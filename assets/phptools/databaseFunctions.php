@@ -1,11 +1,6 @@
 <?php
 
-global $db;
-try {
-   $db = new PDO('mysql:host=localhost;dbname=Z;charset=utf8', 'if3', 'o4IQvC9u3-x77pSf', [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
-} catch (Exception $e) {
-   die('Error : ' . $e->getMessage()); // print the error message
-}
+require_once dirname(__FILE__) . '/dbconnection.php';
 function session_start_secure() {
     if (session_status() == PHP_SESSION_NONE) {
         session_start();
@@ -37,5 +32,5 @@ function verifPassword($password, $confirmpassword)
     }
     else return 0;
 }
-
+    
 
