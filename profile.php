@@ -6,16 +6,11 @@ require_once dirname(__FILE__) . '/assets/phptools/template_top.php';
 require_once dirname(__FILE__) . '/assets/phptools/profileTools.php';
 require_once dirname(__FILE__) . '/assets/phptools/postmanager.php';
 
-// Assuming $bdd is your PDO instance and $_GET['id'] is the id of the user you want to fetch
-$profile_data = getProfileData($db, $_GET['username']);
+$profile_data = getProfileData($_GET['username']);
 
-if (isset($_POST['profile_change'])) {
-    if (verifPassword($_POST['password'], $_POST['confirmpassword']) == 0) {
-        updateProfile($db, $profile_data['username'], $_POST['email'], $_FILES['profile_picture'], $_FILES['banner'], $_POST['bio'], $_POST['password'], $profile_data['profile_picture_path'], $profile_data['banner_path']);
-    } else {
-        echo "Passwords do not match.";
-    }
-}
+// if (isset($_POST['profile_change'])) {
+//     updateProfile($profile_data['username'], $_FILES['profile_picture'], $_FILES['banner'], $_POST['bio'], $profile_data['profile_picture_path'], $profile_data['banner_path']);
+// }
 
 
 ?>
@@ -25,11 +20,13 @@ if (isset($_POST['profile_change'])) {
         font-size: 17px;
     }
 </style>
-
+<body data-profile-id="<?php echo $profile_data['id']; ?>">
+<body data-profile-username="<?php echo $profile_data['username']; ?>"></body>
 <div class="container py-5 h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="">
             <div class="border">
+                <div class="" id="profile-container">
                 <?php
                 // Check if $profile_data is not empty and is an array
                 if (!empty($profile_data) && is_array($profile_data)) {
@@ -45,18 +42,27 @@ if (isset($_POST['profile_change'])) {
                 ?>
                 <div class='text-white d-flex flex-row'
                     style='background: url(<?php echo $banner_path; ?>) no-repeat center center / cover; height:200px;'>
-                    <div class='rounded' style='width: 120px; height: 120px; margin-top:125px; margin-left:30px;'>
-                        <img src='<?php echo $profile_picture_path; ?>' alt='Profile Picture'
+                    <div class='' style='width: 120px; height: 120px; margin-top:130px; margin-left:30px;'>
+                        <img src='<?php echo $profile_picture_path; ?>'class='rounded'
                             style='height:100%; width:100%; object-fit: cover;'>
                     </div>
+                </div>
             </div>
             <?php
-            $_SESSION['username'] = $profile_data['username'];  
             if (!empty($profile_data['username'])) {
                 if (isset($_SESSION['username']) && $_SESSION['username'] === $profile_data['username']) {
-                    echo "<button type='button' class='mt-2 btn btn-outline-dark float-end me-2' data-mdb-ripple-color='dark' data-bs-toggle='modal' 
+                    echo "<button type='button' class='mt-2 me-2 btn btn-outline-dark float-end ' data-mdb-ripple-color='dark' data-bs-toggle='modal' 
                         data-bs-target='#editProfileModal'>
                         Edit profile
+                    </button>";
+                } else if (!isset($_SESSION['id'])){
+                    echo "<button type='button' class='mt-2 me-2 btn btn-outline-dark float-end ' data-mdb-ripple-color='dark' data-bs-toggle='modal'
+                    data-bs-target='#modalLogin'>
+                        Follow
+                    </button>";
+                } else {
+                    echo "<button type='button' class='mt-2 me-2 btn btn-outline-dark float-end ' data-mdb-ripple-color='dark' id='follow'>
+                        Follow
                     </button>";
                 }
             }
@@ -66,10 +72,10 @@ if (isset($_POST['profile_change'])) {
                     <?php
                     if (!empty($profile_data) && is_array($profile_data)) {
                         if (isset($profile_data['username'])) {
-                            echo "<h2 class='bold'>" . $profile_data['username'] . "</h2>"; // Display username in an H1 tag
+                            echo "<h2 class='bold' id='username'>" . $profile_data['username'] . "</h2>"; // Display username in an H1 tag
                         }
                     } else {
-                        echo "<h2 class='bold'>This user doesn't exist.</h2>";
+                        echo "<h2 class='bold mt-3'>This user doesn't exist.</h2>";
                     }
                     ?>
                 </div>
@@ -79,21 +85,29 @@ if (isset($_POST['profile_change'])) {
                 }
                 ?>
                 <?php
-                if (!empty($profile_data) && is_array($profile_data)) {
-                    echo "
+                if (!empty($profile_data) && is_array($profile_data)) :
+                    $birthdate = isset($profile_data['birthdate']) ? $profile_data['birthdate'] : '';
+                    $registration_date = isset($profile_data['registration_date']) ? $profile_data['registration_date'] : '';
+                ?>
                     <div class='mt-2'>
-                        <i class='bi bi-cake'></i> Born";
-                    if (isset($profile_data['birthdate'])) {
-                        echo $profile_data['birthdate'];
-                    }
-                    echo "<i class='bi bi-balloon'></i> Joined";
-                    if (isset($profile_data['registration_date'])) {
-                        echo $profile_data['registration_date'];
-                    }
-                    echo "</div>";
+                        <i class='bi bi-cake'></i> Born <?php echo $birthdate; ?>
+                        <i class='ms-2 bi bi-balloon'></i> Joined <?php echo $registration_date; ?>
+                    </div>
+                <?php
+                endif;
+                ?>
+                <?php
+                if (!empty($profile_data) && is_array($profile_data)) {
+                    $followers = isset($profile_data['followers']) ? $profile_data['followers'] : 0;
+                    $following = isset($profile_data['following']) ? $profile_data['following'] : 0;
                 }
                 ?>
+                <div class='mt-3 mb-4'>
+                    <i></i> <?php echo $followers; ?> followers 
+                    <i class="ms-2"></i> <?php echo $following; ?> following 
+                </div>
             </div>
+
             <div id="posts-container">
                 <!--TODO: get posts by user-->
             </div>
@@ -109,7 +123,7 @@ if (isset($_POST['profile_change'])) {
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form method="post" action="profile.php?username=<?php echo $profile_data['username'];?>"
+                <form method="post" id="setting-form"
                     enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="profile_picture" class="form-label">Profile Picture</label>
@@ -121,22 +135,9 @@ if (isset($_POST['profile_change'])) {
                         <input type="file" class="form-control" id="banner" name="banner" accept="image/*">
                     </div>
                     <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" name="email"
-                            value="<?php echo $profile_data['email']; ?>">
-                    </div>
-                    <div class="mb-3">
                         <label for="bio" class="form-label">Bio</label>
                         <textarea class="form-control" id="bio"
                             name="bio"><?php echo $profile_data['bio']; ?></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Change password</label>
-                        <input type="password" class="form-control" id="password" name="password">
-                    </div>
-                    <div class="mb-3">
-                        <label for="confirmpassword" class="form-label">Confirm password</label>
-                        <input type="password" class="form-control" id="confirmpassword" name="confirmpassword">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-mdb-ripple-color='dark'

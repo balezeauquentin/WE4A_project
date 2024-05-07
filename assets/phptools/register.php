@@ -71,4 +71,7 @@ if (isset($_POST['username-r']) && isset($_POST['password-r']) && isset($_POST['
 if (isset($error)) {
     header('Content-Type: application/json');
     echo json_encode(array('error' => true, 'message' => $error));
+} else if (isset($success)){
+    header('Content-Type: application/json');
+    echo json_encode(array('success' => true, 'message' => $success));
 }

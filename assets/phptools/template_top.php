@@ -24,7 +24,22 @@ session_start_secure();
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="/WE4A_project/assets/js/jquery-3.7.1.min.js" defer></script>
     <script src="/WE4A_project/assets/js/connection.js" defer></script>
+
+    <?php 
+    if (isset($_GET['username'])){
+        $username = $_GET['username'];
+    } else {
+        $username = null;
+    }
+    if ($pageTitle == $username): ?>
+    <script src="/WE4A_project/assets/js/profile.js" defer></script>
+    <?php endif;
+    if ($pageTitle === "Home" || $pageTitle == $username): ?>
     <script src="/WE4A_project/assets/js/postmanager.js" defer></script>
+    <?php endif;
+    if ($pageTitle === "Settings"): ?>
+    <script src="/WE4A_project/assets/js/updatesettings.js" defer></script>
+    <?php endif; ?>
 </head>
 
 <body>
@@ -43,32 +58,31 @@ session_start_secure();
                     </a>
                     <hr>
                     <ul class="nav nav-pills flex-column mb-auto">
-                        <li class="nav-item">
+                        <li class="nav-item mb-2">
                             <a class="nav-link <?php if ($pageTitle === "Home")
                                 echo "active"; ?>"
-                                href="/WE4A_project/index.php">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link <?php if ($pageTitle === "Notifications")
-                                echo "active"; ?>"
-                                href="/WE4A_project/notifications.php">Notifications</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link <?php if ($pageTitle === "Messages")
-                                echo "active"; ?>"
-                                href="/WE4A_project/message.php">Messages</a>
+                                href="/WE4A_project/index.php"><i class="bi bi-house"></i> Home</a>
                         </li>
                         <?php
-
                         if (isset($_SESSION['id'])): ?>
-                            <li class="nav-item">
-                                <a class="nav-link"
+                        <li class="nav-item mb-2">
+                            <a class="nav-link <?php if ($pageTitle === "Notifications")
+                                echo "active"; ?>"
+                                href="/WE4A_project/notifications.php"><i class="bi bi-bell"></i> Notifications</a>
+                        </li>
+                        <li class="nav-item mb-2">
+                            <a class="nav-link <?php if ($pageTitle === "Messages")
+                                echo "active"; ?>"
+                                href="/WE4A_project/messages.php"><i class="bi bi-chat-left-text"></i> Messages</a>
+                        </li>
+                            <li class="nav-item mb-4">
+                                <a class="nav-link <?php if($pageTitle === $_SESSION['username']) echo "active" ?>"
                                     href="/WE4A_project/profile.php?username=<?php echo $_SESSION['username'] ?>"><i
-                                        class="bi bi-person-fill"></i>Profil</a>
+                                        class="bi bi-person"></i> Profil</a>
                             </li>
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                 data-bs-target="#modalPost">
-                                Poster
+                                Send a Z
                             </button>
                         <?php endif; ?>
                     </ul>
@@ -79,14 +93,14 @@ session_start_secure();
                         <div class="dropdown">
                             <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle"
                                 id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-                                <div class='ms-2 me-2' style='width: 50px; height: 50px; '>
+                                <div class='ms-2 me-2' style='width: 45px; height: 45px; '>
                                     <img src='<?php echo  $_SESSION['profile_picture_path']; ?>' alt='' class="rounded"
                                         style='height:100%; width:100%; object-fit: cover;'>
                                 </div>
-                                <strong class="fs-4"><?php echo $_SESSION['username']; ?></strong>
+                                <strong class="fs-5"><?php echo $_SESSION['username']; ?></strong>
                             </a>
                             <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
-                                <li><a class="dropdown-item" href="#">Settings</a></li>
+                                <li><a class="dropdown-item" href="/WE4A_project/settings.php">Settings</a></li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
@@ -153,6 +167,7 @@ session_start_secure();
                                     </label>
                                 </div>
                                 <div id="error-message" class="text-danger"></div>
+                                <div id="success-message" class="text-success"></div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
@@ -175,17 +190,15 @@ session_start_secure();
                                 <h5 class="modal-title" id="modalRegisterLabel">S'inscrire</h5>
                             </div>
                             <div class="modal-body">
-                                <div class="row mb-3">
-                                    <div class="col">
+                                    <div class="">
                                         <label for="Username" class="form-label">Username</label>
                                         <input type="text" class="form-control" id="sername" name="username-r">
                                     </div>
-                                    <div class="col">
+                                    <div class="">
                                         <label for="mail" class="form-label">E-mail</label>
                                         <input type="text" class="form-control" id="mail" name="mail-r">
-                                        <div class="form-text">An email will be sent.</div>
+                                        <div class="form-text"></div>
                                     </div>
-                                </div>
                                 <div class="row mb-2">
                                     <div class="col">
                                         <label for="password" class="form-label">Password</label>
@@ -215,7 +228,7 @@ session_start_secure();
                                         <input type="text" class="form-control" id="name" name="name-r">
                                     </div>
                                 </div>
-                                <hr>
+
                                 <div class="row mb-3">
                                     <div class="col">
                                         <label for="day" class="form-label">Day</label>
@@ -243,8 +256,8 @@ session_start_secure();
                                         <label for="year" class="form-label">Year</label>
                                         <input type="text" class="form-control" id="year" name="year-r">
                                     </div>
-
                                 </div>
+                                <hr>
                                 <div class="row g-3">
                                     <div class="col-12">
                                         <label for="inputAddress" class="form-label">Address</label>
@@ -268,6 +281,7 @@ session_start_secure();
                                     </div>
                                 </div>
                                 <div id="error-message-r" class="text-danger"></div>
+                                <div id="success-message-r" class="text-success"></div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"

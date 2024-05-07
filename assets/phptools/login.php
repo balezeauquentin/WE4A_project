@@ -15,7 +15,7 @@ if (isset($_POST['user']) && isset($_POST['password'])) {
             if ($userData['isbanned'] == 0) {
                 if (password_verify($password, $userData['password'])) {
                     //if ($user['verified']) {
-                        $error = "You are now logged in.";
+
                         $_SESSION['id'] = $userData['id'];
                         $_SESSION['username'] = $userData['username'];
                         $_SESSION['profile_picture_path'] = $userData['profile_picture_path'];
@@ -25,6 +25,7 @@ if (isset($_POST['user']) && isset($_POST['password'])) {
                             $_SESSION['profile_picture_path'] = $userData['profile_picture_path'];
                         }
                         $_SESSION['admin'] = $userData['admin'];
+                        $success = "You are now logged in.";
                     //} else {
                         //$error = "Your account is not verified. Please check your email.";
                     //}
@@ -47,4 +48,7 @@ if (isset($_POST['user']) && isset($_POST['password'])) {
 if (isset($error)) {
     header('Content-Type: application/json');
     echo json_encode(array('error' => true, 'message' => $error));
+} else if (isset($success)){
+    header('Content-Type: application/json');
+    echo json_encode(array('success' => true, 'message' => $success));
 }

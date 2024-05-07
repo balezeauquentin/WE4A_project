@@ -16,7 +16,7 @@ require 'assets/phptools/template_top.php'; ?>
   </li>
 </ul>
 
-<div id ="post-container">
+<div id ="posts-container">
   
 </div>
 

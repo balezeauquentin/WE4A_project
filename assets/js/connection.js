@@ -9,6 +9,8 @@ $('#formLoginId').submit(function (e) {
         success: function (response) {
             if (response.error) {
                 $('#error-message').text(response.message);
+            } else if (response.success){
+                $('#success-message').text(response.message);
             }
             setTimeout(function () {
                 location.reload();
@@ -28,8 +30,11 @@ $('#formRegisterId').submit(function (e) {
         success: function (response) {
             if (response.error) {
                 $('#error-message-r').text(response.message);
+            } else if (response.success){
+                $('#success-message-r').text(response.message);
             }
             setTimeout(function () {
+                window.location.href = "/WE4A_project/index.php"
                 location.reload();
             }, 1000);
         }
@@ -45,11 +50,8 @@ $('#logout-button').click(function (e) {
         url: '/WE4A_project/assets/phptools/logout.php',
         data: formData,
         success: function (response) {
-            if (response.error) {
-                $('#error-message').text(response.message);
-            }
             setTimeout(function () {
-                location.reload();
+                window.location.href = "/WE4A_project/index.php"
             });
         }
     });
