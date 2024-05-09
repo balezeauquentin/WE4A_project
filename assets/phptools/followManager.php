@@ -1,5 +1,6 @@
 <?php
 require_once dirname(__FILE__) . '/databaseFunctions.php';
+require_once dirname(__FILE__) . '/notificationManager.php';
 session_start_secure();
 
 
@@ -22,6 +23,8 @@ function follow_unfollow($id_user, $id_target){
     if (alreadyFollowing($id_user, $id_target) == false) {
         $query = $db->prepare("INSERT INTO follow (following_id, followed_id) VALUES (?, ?)");
         $query->execute([$id_user, $id_target]);
+        $message = "@" + $_SESSION['username'] + " started following you";
+        createNotification($message, "follow", $id_target);
         echo "Follow";
     } else {
         $query = $db->prepare("DELETE FROM follow WHERE following_id = ? AND followed_id = ?");

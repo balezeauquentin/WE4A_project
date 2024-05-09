@@ -3,15 +3,16 @@
 require_once dirname(__FILE__) . '/databaseFunctions.php';
 session_start_secure();
 
-if (isset($_POST['user']) && isset($_POST['password'])) {
+if (isset($_POST['user']) && isset($_POST['password-l'])) {
     $username = validateUserInput($_POST['user']);
-    $password = validateUserInput($_POST['password']);
+    $password = validateUserInput($_POST['password-l']);
     if (!empty($username) and !empty($password)) {
         $req = $db->prepare("SELECT id,email, username,password,profile_picture_path,admin,isbanned FROM users WHERE username = ?");
         $req->execute(array($username));
         $isUserExist = $req->rowCount();
         if ($isUserExist) {
             $userData = $req->fetch();
+
             if ($userData['isbanned'] == 0) {
                 if (password_verify($password, $userData['password'])) {
                     //if ($user['verified']) {

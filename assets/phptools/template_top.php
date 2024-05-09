@@ -15,15 +15,15 @@ session_start_secure();
     <title>Z - <?php echo $pageTitle; ?></title>
     <link rel="icon" type="image/png" sizes="192x192" href="assets/img/logo.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"
-        defer>
-    </script>
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="/WE4A_project/assets/css/style.css">
+
+    <script src="/WE4A_project/assets/js/jquery-3.7.1.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"
         defer></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="/WE4A_project/assets/css/style.css">
-    <script src="/WE4A_project/assets/js/jquery-3.7.1.min.js" defer></script>
+        
     <script src="/WE4A_project/assets/js/template.js" defer></script>
     
     <?php 
@@ -47,7 +47,11 @@ session_start_secure();
     <?php endif; ?>
 
 </head>
-
+<?php
+if (isset($_SESSION['id'])) {
+    echo "<body data-user-id=" . $_SESSION['id'] . "></body>";
+}
+?>
 <body>
     <div class="container-fluid">
         <!-- Container principal -->
@@ -84,7 +88,7 @@ session_start_secure();
                         <li class="nav-item mb-2">
                             <a class="nav-link <?php if($pageTitle === $_SESSION['username']) echo "active" ?>"
                                     href="/WE4A_project/profile.php?username=<?php echo $_SESSION['username'] ?>"><i
-                                        class="bi bi-person"></i> Profil</a>
+                                        class="bi bi-person"></i> Profile</a>
                         </li>
                         <li class="nav-item mb-2">
                             <a class="nav-link <?php if ($pageTitle === "Statistics")
@@ -118,18 +122,18 @@ session_start_secure();
                                 <strong class="fs-5"><?php echo $_SESSION['username']; ?></strong>
                             </a>
                             <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
-                                <li><a class="dropdown-item" href="/WE4A_project/settings.php">Settings</a></li>
+                                <li><a class="dropdown-item" href="/WE4A_project/settings.php"><i class="bi bi-person-gear"></i> Settings</a></li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a id="logout-button" class="dropdown-item" href="#">Logout</a></li>
+                                <li><a id="logout-button" class="dropdown-item" href="#"><i class="bi bi-box-arrow-left"></i> Logout</a></li>
 
                             </ul>
                         </div>
                     <?php else: ?>
                         <a href="#" class="d-flex text-align-center link-dark text-decoration-none" data-bs-toggle='modal'
                             data-bs-target='#modalLogin'>
-                            <strong>Se connecter</strong>
+                            <strong class="text-center"><i class="bi bi-person-circle fs-3"></i>&nbsp;   Se connecter</strong>
                         </a>
                     <?php endif; ?>
                 </div>
@@ -173,12 +177,12 @@ session_start_secure();
                                     <label for="username-l" class="form-label">Username</label>
                                 </div>
                                 <div class="form-floating mb-3">
-                                    <input type="password" class="form-control" id="password-l" name="password"
+                                    <input type="password" class="form-control" id="password-l" name="password-l"
                                         placeholder="" required />
                                     <label for="password-l" class="form-label">Password</label>
                                 </div>
                                 <div class="form-check mb-3">
-                                    <input class="form-check-input" type="checkbox" value="" id="showpassword"
+                                    <input class="form-check-input" type="checkbox" value="" id="showpassword-l"
                                         onchange="TogglePassword(this.checked)">
                                     <label class="form-check-label" for="showpassword">
                                         Show password
