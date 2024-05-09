@@ -1,24 +1,43 @@
 <?php
+
+require_once dirname(__FILE__) . '/databaseFunctions.php';
+
 if (isset($_POST['searchText']) && isset($_POST['searchType'])) {
     $searchText = $_POST['searchText'];
     $searchType = $_POST['searchType'];
 
     // Perform the search based on $searchType
-    // This is a placeholder - replace it with your actual search code
     $results = performSearch($searchText, $searchType);
 
     // Send the results back to the client
     echo json_encode($results);
 }
 
+
+function searchUsername($db, $username) {
+        $req = $db->prepare("SELECT * FROM users WHERE username = :username");
+        $req->bindValue(':username', $username);
+        $req->execute();
+        $posts = $req->fetchAll();
+        return $posts;
+}
+
+function searchPost($db, $postText) {
+    $req = $db->prepare("SELECT * FROM users WHERE username = :username");
+    $req->bindValue(':username', $username);
+    $req->execute();
+    $posts = $req->fetchAll();
+    return $posts;
+}
+
+
 function performSearch($searchText, $searchType) {
-    // This is a placeholder function - replace it with your actual search code
-    // For example, you might query a database or an API here
+    global $db;
 
     if ($searchType === 'Usernames') {
-        return ['user1', $searchText, 'user3'];
+        return searchUsername($db, $searchText);
     } else if ($searchType === 'Posts') {
-        return ['post1', 'post2', 'post3'];
+        return searchPost($db, $searchText);
     } else {
         return [];
     }
