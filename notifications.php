@@ -20,7 +20,6 @@ require_once dirname(__FILE__) . '/assets/phptools/template_top.php';
             <th></th>
             <th></th>
             <th></th>
-
             <th></th>
         </tr>
     </thead>

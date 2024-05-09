@@ -57,11 +57,16 @@ function PostByUser(profileId) {
         },
         success: function (response) {
             var responses = JSON.parse(response);
-
-            for (rep of responses) {
+            if (responses.error) {
                 var element = document.querySelector('#posts-container');
-                insertPost(rep, element);
+                element.innerHTML = "<div class='text-center'>No post yet</div>";
+            } else {
+                for (rep of responses) {
+                    var element = document.querySelector('#posts-container');
+                    insertPost(rep, element);
+                }
             }
+
         }
     });
 }

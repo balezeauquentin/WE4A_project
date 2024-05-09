@@ -23,7 +23,7 @@ function follow_unfollow($id_user, $id_target){
     if (alreadyFollowing($id_user, $id_target) == false) {
         $query = $db->prepare("INSERT INTO follow (following_id, followed_id) VALUES (?, ?)");
         $query->execute([$id_user, $id_target]);
-        $message = "@" + $_SESSION['username'] + " started following you";
+        $message = "@" . $_SESSION['username'] . " started following you";
         createNotification($message, "follow", $id_target);
         echo "Follow";
     } else {
@@ -35,7 +35,7 @@ function follow_unfollow($id_user, $id_target){
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if ($_POST['follow_unfollow']){
+    if ($_POST['follow_unfollow']) {
         $userId = $_POST['userId'];
         $targetId = $_POST['targetId'];
         follow_unfollow($userId, $targetId);

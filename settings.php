@@ -4,7 +4,6 @@ session_start_secure();
 $pageTitle = 'Settings';
 
 require_once dirname(__FILE__) . '/assets/phptools/template_top.php';
-$_SESSION['id'] = 2;
 if (isset($_SESSION['id'])):
 ?>
 <body data-settings-id="<?php echo $_SESSION['id']; ?>">

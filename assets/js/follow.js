@@ -9,10 +9,12 @@ $(document).ready(function() {
                 targetId : profileId,
                 follow_unfollow : true},
         success: function(response) {
-            if (response == 'follow') {
+            console.log(response);
+            if (response == 'Follow') {
             $('#follow').attr('data-follow', 'follow');
             $('#follow').text('Unfollow');
-            } else {
+            $('#follower')
+            } else if (response == 'Unfollow') {
             $('#follow').attr('data-follow', 'follow');
             $('#follow').text('Follow');
             }

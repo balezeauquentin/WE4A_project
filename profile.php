@@ -108,8 +108,8 @@ if (isset($_SESSION['id'])) {
                 }
                 ?>
                 <div class='mt-3 mb-4'>
-                    <i></i> <?php echo $followers; ?> <a class="text-black" href="">followers</a>
-                    <i class="ms-2"></i> <?php echo $following; ?> <a class="text-black" href="">following </a>
+                    <i></i><?php echo $followers; ?> <a class="text-black text-decoration-none" href="">followers</a>
+                    <i class="ms-2"></i><?php echo $following; ?> <a class="text-black text-decoration-none" href="">following </a>
                 </div>
             </div>
 
