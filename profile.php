@@ -5,23 +5,24 @@ $pageTitle = $_GET['username'];
 require_once dirname(__FILE__) . '/assets/phptools/template_top.php';
 require_once dirname(__FILE__) . '/assets/phptools/profileTools.php';
 require_once dirname(__FILE__) . '/assets/phptools/postmanager.php';
+require_once dirname (__FILE__) . '/assets/phptools/followManager.php';
 
 $profile_data = getProfileData($_GET['username']);
-
-// if (isset($_POST['profile_change'])) {
-//     updateProfile($profile_data['username'], $_FILES['profile_picture'], $_FILES['banner'], $_POST['bio'], $profile_data['profile_picture_path'], $profile_data['banner_path']);
-// }
 
 
 ?>
 
 <style>
     body {
-        font-size: 17px;
+        font-size: 17px; 
     }
 </style>
 <body data-profile-id="<?php echo $profile_data['id']; ?>">
-<body data-profile-username="<?php echo $profile_data['username']; ?>"></body>
+<?php
+if (isset($_SESSION['id'])) {
+    echo "<body data-user-id=" . $_SESSION['id'] . "></body>";
+}
+?>
 <div class="container py-5 h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="">
@@ -60,9 +61,13 @@ $profile_data = getProfileData($_GET['username']);
                     data-bs-target='#modalLogin'>
                         Follow
                     </button>";
+                } else if (alreadyFollowing($_SESSION['id'], $profile_data['id'])) {
+                    echo "<button type='button' class='mt-2 me-2 btn btn-outline-dark float-end ' data-mdb-ripple-color='dark' id='follow'>
+                    Following
+                    </button>";
                 } else {
                     echo "<button type='button' class='mt-2 me-2 btn btn-outline-dark float-end ' data-mdb-ripple-color='dark' id='follow'>
-                        Follow
+                    Follow
                     </button>";
                 }
             }
@@ -103,8 +108,8 @@ $profile_data = getProfileData($_GET['username']);
                 }
                 ?>
                 <div class='mt-3 mb-4'>
-                    <i></i> <?php echo $followers; ?> followers 
-                    <i class="ms-2"></i> <?php echo $following; ?> following 
+                    <i></i> <?php echo $followers; ?> <a class="text-black" href="">followers</a>
+                    <i class="ms-2"></i> <?php echo $following; ?> <a class="text-black" href="">following </a>
                 </div>
             </div>
 

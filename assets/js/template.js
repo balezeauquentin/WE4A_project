@@ -56,3 +56,4 @@ $('#logout-button').click(function (e) {
         }
     });
 });
+

@@ -33,6 +33,21 @@ if (isset($_SESSION['id'])):
                 <input type="text" class="form-control" id="country" name="country" value>
             </div>
         </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">New password:</label>
+            <input type="password" class="form-control" id="password" name="password" value>
+        </div>
+        <div class="mb-3">
+            <label for="password-confirm" class="form-label">Confirm new password:</label>
+            <input type="password" class="form-control" id="password-confirm" name="password-confirm" value>
+        </div>
+        <div class="mb-3">
+            <label for="old-password" class="form-label">Old password:</label>
+            <input type="password" class="form-control" id="old-password" name="old-password" value>
+        </div>
+        <div id="error-message" class="text-danger"></div>
+        <div id="success-message" class="text-success"></div>
+        </div>
         <button type="submit" class="btn btn-primary align-item-left">Confirm</button>
     </form>
 </div>

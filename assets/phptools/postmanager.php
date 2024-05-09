@@ -54,9 +54,6 @@ function getPostByUser($id_user)
         echo json_encode(array('error' => true, 'message' => 'No posts found'));
         return;
     }
-
-
-
 }
 
 

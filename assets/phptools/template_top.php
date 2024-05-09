@@ -22,9 +22,10 @@ session_start_secure();
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"
         defer></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="/WE4A_project/assets/css/style.css">
     <script src="/WE4A_project/assets/js/jquery-3.7.1.min.js" defer></script>
-    <script src="/WE4A_project/assets/js/connection.js" defer></script>
-
+    <script src="/WE4A_project/assets/js/template.js" defer></script>
+    
     <?php 
     if (isset($_GET['username'])){
         $username = $_GET['username'];
@@ -33,13 +34,18 @@ session_start_secure();
     }
     if ($pageTitle == $username): ?>
     <script src="/WE4A_project/assets/js/profile.js" defer></script>
+    <script src="/WE4A_project/assets/js/follow.js" defer></script>
     <?php endif;
     if ($pageTitle === "Home" || $pageTitle == $username): ?>
     <script src="/WE4A_project/assets/js/postmanager.js" defer></script>
     <?php endif;
     if ($pageTitle === "Settings"): ?>
     <script src="/WE4A_project/assets/js/updatesettings.js" defer></script>
+    <?php endif; 
+    if ($pageTitle === "Notifications") :?>
+    <script src="/WE4A_project/assets/js/notificationManager.js" defer></script>
     <?php endif; ?>
+
 </head>
 
 <body>
@@ -49,7 +55,7 @@ session_start_secure();
         <div class="row">
             <div class="col-1"></div>
             <!-- Row contenant 2 colonnes (sidebar | navbar+main) -->
-            <div class="col-2 p-0 vh-100 sticky-top">
+            <div class="col-2 p-0 vh-100">
                 <!-- Sidebar -->
                 <div class="d-flex flex-column flex-shrink-0 p-3 bg-light h-100">
                     <a href="/WE4A_project/index.php">
@@ -68,18 +74,30 @@ session_start_secure();
                         <li class="nav-item mb-2">
                             <a class="nav-link <?php if ($pageTitle === "Notifications")
                                 echo "active"; ?>"
-                                href="/WE4A_project/notifications.php"><i class="bi bi-bell"></i> Notifications</a>
+                                href="/WE4A_project/notifications.php"><i class="bi bi-bell"></i> Notifications <span class="badge bg-danger" id="notification-badge"></span></a>
                         </li>
                         <li class="nav-item mb-2">
                             <a class="nav-link <?php if ($pageTitle === "Messages")
                                 echo "active"; ?>"
                                 href="/WE4A_project/messages.php"><i class="bi bi-chat-left-text"></i> Messages</a>
                         </li>
-                            <li class="nav-item mb-4">
-                                <a class="nav-link <?php if($pageTitle === $_SESSION['username']) echo "active" ?>"
+                        <li class="nav-item mb-2">
+                            <a class="nav-link <?php if($pageTitle === $_SESSION['username']) echo "active" ?>"
                                     href="/WE4A_project/profile.php?username=<?php echo $_SESSION['username'] ?>"><i
                                         class="bi bi-person"></i> Profil</a>
-                            </li>
+                        </li>
+                        <li class="nav-item mb-2">
+                            <a class="nav-link <?php if ($pageTitle === "Statistics")
+                                echo "active"; ?>"
+                                href="/WE4A_project/statistics.php"><i class="bi bi-bar-chart"></i> Statistcs</a>
+                        </li>
+                        <?php if($_SESSION['admin'] === 1): ?>
+                        <li class="nav-item mb-4">
+                            <a class="nav-link <?php if ($pageTitle === "Admin")
+                                echo "active"; ?>"
+                                href="/WE4A_project/statistics.php"><i class="bi bi-person-gear"></i> Admin</a>
+                        </li>
+                        <?php endif; ?>
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                 data-bs-target="#modalPost">
                                 Send a Z
@@ -152,12 +170,12 @@ session_start_secure();
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="username-l" name="user" placeholder=""
                                         required />
-                                    <label for="username" class="form-label">Username</label>
+                                    <label for="username-l" class="form-label">Username</label>
                                 </div>
                                 <div class="form-floating mb-3">
                                     <input type="password" class="form-control" id="password-l" name="password"
                                         placeholder="" required />
-                                    <label for="password" class="form-label">Password</label>
+                                    <label for="password-l" class="form-label">Password</label>
                                 </div>
                                 <div class="form-check mb-3">
                                     <input class="form-check-input" type="checkbox" value="" id="showpassword"
@@ -191,8 +209,8 @@ session_start_secure();
                             </div>
                             <div class="modal-body">
                                     <div class="">
-                                        <label for="Username" class="form-label">Username</label>
-                                        <input type="text" class="form-control" id="sername" name="username-r">
+                                        <label for="username-r" class="form-label">Username</label>
+                                        <input type="text" class="form-control" id="username-r" name="username-r">
                                     </div>
                                     <div class="">
                                         <label for="mail" class="form-label">E-mail</label>
@@ -201,7 +219,7 @@ session_start_secure();
                                     </div>
                                 <div class="row mb-2">
                                     <div class="col">
-                                        <label for="password" class="form-label">Password</label>
+                                        <label for="password-r" class="form-label">Password</label>
                                         <input type="password" class="form-control" id="password-r" name="password-r">
                                     </div>
                                     <div class="col">
@@ -231,12 +249,12 @@ session_start_secure();
 
                                 <div class="row mb-3">
                                     <div class="col">
-                                        <label for="day" class="form-label">Day</label>
-                                        <input type="text" class="form-control" id="birthdate" name="day-r">
+                                        <label for="day-r" class="form-label">Day</label>
+                                        <input type="text" class="form-control" id="day-r" name="day-r">
                                     </div>
                                     <div class="col">
-                                        <label for="day" class="form-label">Month</label>
-                                        <select class="form-control" id="month" name="month-r">
+                                        <label for="month-r" class="form-label">Month</label>
+                                        <select class="form-control" id="month-r" name="month-r">
                                             <option value=""> </option>
                                             <option value="1">January</option>
                                             <option value="2">February</option>
@@ -253,8 +271,8 @@ session_start_secure();
                                         </select>
                                     </div>
                                     <div class="col">
-                                        <label for="year" class="form-label">Year</label>
-                                        <input type="text" class="form-control" id="year" name="year-r">
+                                        <label for="year-r" class="form-label">Year</label>
+                                        <input type="text" class="form-control" id="year-r" name="year-r">
                                     </div>
                                 </div>
                                 <hr>
@@ -275,10 +293,6 @@ session_start_secure();
                                         <label for="inputCountry" class="form-label">Country</label>
                                         <input type="text" class="form-control" id="inputCountry" name="country-r">
                                     </div>
-                                    <div class="col-12 d-flex justify-content-center align-items-center">
-                                        <div class="g-recaptcha"
-                                            data-sitekey="6LeClLIpAAAAAIt1EesWjZ_TEuMne4QRk-TTuBQ2"></div>
-                                    </div>
                                 </div>
                                 <div id="error-message-r" class="text-danger"></div>
                                 <div id="success-message-r" class="text-success"></div>
@@ -294,4 +308,4 @@ session_start_secure();
                     </div>
                 </div>
             </div>
-            <div class="col-6 p-0">
+            <div class="col-6 p-0 vh-100 overflow-auto">

@@ -1,13 +1,14 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i');
 
-
-
-.sticky-top {
-  position: sticky;
-  top: 0;
+::-webkit-scrollbar {
+  width: 8px;
 }
 
-.sticky-div {
-  position: sticky;
-  top: 0;
+::-webkit-scrollbar-track {
+  background: #f8f9fa;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #6c757d;
+  border-radius: 20px;
 }

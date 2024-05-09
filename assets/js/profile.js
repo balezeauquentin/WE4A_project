@@ -4,9 +4,8 @@ function getUserInfo(username) {
         type: 'GET',
         data: {username: true},
         success: function(response) {
-            var user = JSON.parse(response);
-                            var element = document.querySelector('#posts-container');
-                insertPost(rep, element);
+        JSON.parse(response);
+
         },
     });
 }
@@ -24,26 +23,11 @@ $(document).ready(function () {
             contentType: false,
             success: function(response) { 
                 console.log(response);  
+                setTimeout(function () {
+                    location.reload();
+                });
             },
-            error: function(xhr, status, error) {
-                console.error(xhr.responseText);
-            }
         });
     });
-    $('#follow').on('click', function(e) {
-        e.preventDefault();
-        $.ajax({
-            url: "assets/phptools/followTools.php",
-            type: 'POST',
-            data: { follow: true,             
-                userId: profileId 
-            },
-            success: function(response) { 
-                console.log(response);
-            },
-            error: function(xhr, status, error) {
-                console.error(xhr.responseText);
-            }
-        });
-    });
+
 });

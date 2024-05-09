@@ -6,7 +6,14 @@ $(document).ready(function() {
             type: 'POST',
             data: $(this).serialize(),
             success: function(response) { 
-                console.log(response);
+                if (response.error) {
+                    $('#error-message').text(response.message);
+                } else if (response.success){
+                    $('#success-message').text(response.message);
+                    setTimeout(function () {
+                        location.reload();
+                    }, 1000);
+                }
             },
         });
     });

@@ -32,7 +32,7 @@ function getProfileData($username)
         $userInfo['followers'] = $followCount['followers'];
         $query = $db->prepare("SELECT COUNT(*) AS following
                                FROM follow
-                               WHERE follower_id = :id");
+                               WHERE following_id = :id");
         $query->execute([
             ':id' => $userInfo['id']
         ]);
