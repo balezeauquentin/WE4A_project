@@ -160,7 +160,7 @@ function PostByUser(profileId) {
 $(document).ready(function () {
     let token;
     var profileId = document.body.dataset.profileId;
-    console.log(profileId);
+
 
     if (sessionStorage.getItem('token')) {
         token = sessionStorage.getItem('token');
