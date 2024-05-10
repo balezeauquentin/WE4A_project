@@ -32,6 +32,14 @@ function parseNotificationContent($content)
 
     // Perform the replacement and return the result
     $parsedContent = preg_replace($pattern, $replacement, $content);
+
+     // The regular expression pattern to match #postID
+     $patternPostID = '/#(\w+)/';
+     // The replacement pattern. \1 refers to the first capture group in the pattern, which is the postID
+     $replacementPostID = '<a href="posts.php?id=\1">\1</a>';
+     // Perform the replacement and return the result
+     $parsedContent = preg_replace($patternPostID, $replacementPostID, $parsedContent);
+     
     return $parsedContent;
 }
 

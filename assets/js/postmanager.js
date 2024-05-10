@@ -2,9 +2,9 @@ function insertPost(postInfo, element) {
     var username;
 
     if (postInfo.isbanned == 1 && postInfo.admin == 1) {
-        username =  postInfo.username + "<span class='ms-2 badge bg-danger'><i class='bi bi-person-fill-gear'></i></span> <span class='ms-1 badge bg-danger'>BANNED</i></span>";
+        username = postInfo.username + "<span class='ms-2 badge bg-danger'><i class='bi bi-person-fill-gear'></i></span> <span class='ms-1 badge bg-danger'>BANNED</i></span>";
     } else if (postInfo.isbanned == 1) {
-        username =  postInfo.username + "<span class='ms-2 badge bg-danger'>BANNED</i></span></a>";
+        username = postInfo.username + "<span class='ms-2 badge bg-danger'>BANNED</i></span></a>";
     } else if (postInfo.admin == 1) {
         username = postInfo.username + "<span class='ms-2 badge bg-danger'><i class='bi bi-person-fill-gear'></i></span>";
     } else {
@@ -32,8 +32,8 @@ function insertPost(postInfo, element) {
               </a>
             </div>`;
 
-        
-        element.innerHTML = element.innerHTML + html;
+
+    element.innerHTML = element.innerHTML + html;
 }
 
 function openModalWithPost(clickedButton) {
@@ -49,28 +49,26 @@ function openModalWithPost(clickedButton) {
         },
         success: function (response) {
             var responses = JSON.parse(response);
-                insertPostInModal(responses, modalPostContent);
+            insertPostInModal(responses, modalPostContent);
         }
     });
 
     $('#responseForm').submit(function (e) {
         e.preventDefault();
-        var formData = $('#responseForm').serialize();
+        var formData = new FormData(this);
+        formData.append('userId', userId);
+        formData.append('parentId', clickedPostId);
+        formData.append('responseToPost', true);
         $.ajax({
             type: 'POST',
             url: '/WE4A_project/assets/phptools/postmanager.php',
-            data: {
-                formData,
-                responseToPost: true,
-                parentId: clickedPostId,
-                userId: userId,
-            },
+            data: formData,
             processData: false,
             contentType: false,
             success: function (response) {
                 if (response.error) {
                     $('#responseError').text(response.message);
-                } else if (response.success){
+                } else if (response.success) {
                     $('#success-message-p').text(response.message);
                     setTimeout(function () {
                         location.reload();
@@ -79,15 +77,15 @@ function openModalWithPost(clickedButton) {
             }
         });
     });
-  }
-  
-  function insertPostInModal(postInfo, element) {
+}
+
+function insertPostInModal(postInfo, element) {
     var username;
 
     if (postInfo.isbanned == 1 && postInfo.admin == 1) {
-        username =  postInfo.username + "<span class='ms-2 badge bg-danger'><i class='bi bi-person-fill-gear'></i></span> <span class='ms-1 badge bg-danger'>BANNED</i></span>";
+        username = postInfo.username + "<span class='ms-2 badge bg-danger'><i class='bi bi-person-fill-gear'></i></span> <span class='ms-1 badge bg-danger'>BANNED</i></span>";
     } else if (postInfo.isbanned == 1) {
-        username =  postInfo.username + "<span class='ms-2 badge bg-danger'>BANNED</i></span></a>";
+        username = postInfo.username + "<span class='ms-2 badge bg-danger'>BANNED</i></span></a>";
     } else if (postInfo.admin == 1) {
         username = postInfo.username + "<span class='ms-2 badge bg-danger'><i class='bi bi-person-fill-gear'></i></span>";
     } else {
@@ -108,10 +106,10 @@ function openModalWithPost(clickedButton) {
                     </div>
                 </a>`;
 
-        element.innerHTML = element.innerHTML + html;
+    element.innerHTML = element.innerHTML + html;
 }
 
-                
+
 function RandomPost(token) {
     start = $('#posts-container .post').length;
     $.ajax({
@@ -128,7 +126,7 @@ function RandomPost(token) {
                 var element = document.querySelector('#posts-container');
                 insertPost(rep, element);
             }
-            
+
         }
     });
 }
@@ -140,7 +138,7 @@ function PostByUser(profileId) {
         type: 'GET',
         data: {
             getPostByUser: true,
-            userId: profileId, 
+            userId: profileId,
         },
         success: function (response) {
             var responses = JSON.parse(response);
@@ -181,7 +179,22 @@ $(document).ready(function () {
             }
         });
     }
+    if (window.location.pathname == '/WE4A_project/posts.php') {
+        var postId = document.body.dataset.postId;
+        var element = document.querySelector('#posts-container');
+        $.ajax({
+            url: "assets/phptools/postmanager.php",
+            type: 'GET',
+            data: {
+                getPostById: true,
+                postId: postId
+            },
+            success: function (response) {
+                var responses = JSON.parse(response);
+                insertPost(responses, element);
+            }
+        });
+    }
 
-   
 });
 

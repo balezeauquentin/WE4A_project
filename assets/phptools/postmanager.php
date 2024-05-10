@@ -1,7 +1,7 @@
 <?php
 
 require_once dirname(__FILE__) . '/databaseFunctions.php';
-
+session_start_secure();
 function getPostInfo($post)
 {
     global $db;
@@ -9,8 +9,8 @@ function getPostInfo($post)
     if ($date === false) {
         throw new Exception("Failed to parse date: " . $post['creation_date']);
     }
-    $formatted_date = $date->format('d/m/Y H:i');   
-    
+    $formatted_date = $date->format('d/m/Y H:i');
+
 
     //TODO: get picture path
     $postInfo = [
@@ -74,8 +74,8 @@ function getPostById($id)
     $query->execute();
     $post = $query->fetch();
     if ($post) {
-            $posts['content'] = validateSqlOutput($post['content']); 
-            $postInfo = getPostInfo($post);
+        $posts['content'] = validateSqlOutput($post['content']);
+        $postInfo = getPostInfo($post);
         echo json_encode($postInfo);
     } else {
         echo json_encode(array('error' => true, 'message' => 'Post not found'));
@@ -107,7 +107,53 @@ function getRandomPost($start, $token)
     echo json_encode($listPosts);
 }
 
+function sendPost($id_parent, $id_user, $content, $image)
+{
+    global $db;
 
+    $query = $db->prepare("INSERT INTO posts (id_parent, id_user, content) VALUES (:id_parent, :id_user, :content)");
+    $query->bindValue(':id_parent', $id_parent, PDO::PARAM_INT);
+    $query->bindValue(':id_user', $id_user, PDO::PARAM_INT);
+    $query->bindValue(':content', $content);
+    $query->execute();
+
+    $id_post = $db->lastInsertId();
+
+    if ($image !== null) {
+        $root_dir = dirname(__FILE__, 3); // Go up 3 levels to get the root directory
+        $post_img_dir = $root_dir . '/post_img/' . $id_post . "/";
+        $image_path = $post_img_dir . '/image' . pathinfo($image['name'], PATHINFO_EXTENSION);
+        mkdir($post_img_dir, 0777, true);
+        move_uploaded_file($image['tmp_name'], $image_path);
+
+        $query = $db->prepare("INSERT INTO images (id_post, path) VALUES (:id_post, :path)");
+        $query->bindValue(':id_post', $id_post, PDO::PARAM_INT);
+        $query->bindValue(':path', $image_path);
+        $query->execute();
+
+        if (!move_uploaded_file($image['tmp_name'], $image_path)) {
+            echo json_encode(array('error' => true, 'message' => 'Failed to upload image'));
+            return;
+        }
+    }
+
+    if($id_parent > 0){
+        $query = $db->prepare("SELECT id_user FROM posts WHERE id = :id_parent");
+        $query->bindValue(':id_parent', $id_parent, PDO::PARAM_INT);
+        $query->execute();
+        $parent = $query->fetch();
+        $query = $db->prepare("INSERT INTO notifications (user_id ,  content, type) VALUES (:id_user, :content, :type)");
+        $query->bindValue(':id_user', $parent['id_user'], PDO::PARAM_INT);
+        $message = "@" . $_SESSION['username'] . " responded to your post #" . $id_parent;
+        $query->bindValue(':content', $message , PDO::PARAM_STR);
+        $query->bindValue(':type', 'comment', PDO::PARAM_STR);
+        $query->execute();
+    }
+
+
+
+    echo json_encode(array('success' => true, 'message' => 'Post created'));
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (isset($_GET['getPostById'])) {
@@ -125,21 +171,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             getRandomPost($_GET['start'], $_GET['token']);
         }
     }
-} if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+}
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['responseToPost'])) {
-        if(isset($_POST['userId'])){
-            if (empty($_POST['formData'])) {
-                echo json_encode(array('error' => true, 'message' => 'Your response is empty'));
+        if (isset($_POST['parentId']) && isset($_POST['userId'])) {
+            if (!isset($_POST['responseText'])) {
+                echo json_encode(array('error' => false, 'message' => 'Your response is empty'));
                 return;
             }
 
-            $content = $_POST['responseText'];
-            $image = isset($_FILES['responseImage']) ? $_FILES['responseImage'] : null; 
-            
-            
+            $content = validateUserInput($_POST['responseText']);
+            $image = (isset($_FILES['image']) && $_FILES['image']['error'] === 0) ? $_FILES['image'] : null;
 
-            responseToPost($_POST['parentId'], $_POST['userId'],$content, $image);
+            sendPost($_POST['parentId'], $_POST['userId'], $content, $image);
+        }
+    } else if (isset($_POST['sendPost'])){
+        if (isset($_POST['userId'])) {
+            if (!isset($_POST['content'])) {
+                echo json_encode(array('error' => false, 'message' => 'Your post is empty'));
+            }
+
+            $content = validateUserInput($_POST['content']);
+            $image = (isset($_FILES['image']) && $_FILES['image']['error'] === 0) ? $_FILES['image'] : null;
+
+            sendPost(0, $_POST['userId'], $content, $image);
         }
     }
-
 }

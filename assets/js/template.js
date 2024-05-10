@@ -85,6 +85,31 @@ $(document).ready(function () {
             },
         });
     }, 10000); 
+
+    $('#formPost').submit(function (e) {
+        e.preventDefault();
+        var formData = new FormData(this);
+        formData.append('userId', userId);
+        formData.append('sendPost', true);
+        $.ajax({
+            type: 'POST',
+            url: '/WE4A_project/assets/phptools/postmanager.php',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                responses = JSON.parse(response);
+                if (responses.error) {
+                    $('#responseError').text(responses.message);
+                } else if (responses.success) {
+                    $('#responseSuccess').text(responses.message);
+                    setTimeout(function () {
+                        location.reload();
+                    }, 1000);
+                }
+            }
+        });
+    });
 });
 
 document.getElementById('showpassword-r').addEventListener('change', function () {

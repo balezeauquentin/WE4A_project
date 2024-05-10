@@ -142,25 +142,34 @@ if (isset($_SESSION['id'])) {
                 </div>
             </div>
             <!-- Modal - Poster -->
-            <!-- Modal -->
-            <div class="modal fade" id="modalPost" tabindex="-1" role="dialog" aria-labelledby="modalPostLabel"
-                aria-hidden="true">
-                <div class="modal-dialog" role="document">
+            <div class="modal fade" id="modalPost" tabindex="-1" aria-labelledby="modalResponsLabel" aria-hidden="true">
+                <div class="modal-dialog">
                     <div class="modal-content">
-                        <form id="formPostId" class="formPost" method="POST" action="">
-                            <div class="modal-header border-bottom-0">
-                                <h5 class="modal-title" id="modalPostLabel">Nouveau post</h5>
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalResponsLabel">Send a Z</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="formPost">
+                                <div class="mb-3">
+                                    <label for="content" class="form-label">Your post</label>
+                                    <textarea class="form-control" id="content" name="content" rows="3"></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="image" class="form-label">Image (Optional)</label>
+                                    <input class="form-control" type="file" id="image" name="image">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <div>
+                                <div id="responseError" class="text-danger"></div>
+                                <div id="responseSuccess" class="text-success"></div>
                             </div>
-                            <div class="modal-body">
-                                <textarea id="textAreaPostId" name="textAreaPostId" class="form-control" placeholder=""
-                                    required style="resize: none; height:30vh"></textarea>
-                            </div>
-                            <div class="modal-footer border-top-0">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                                <input type="submit" class="btn btn-primary" name="postSubmit"
-                                    value="Publier le post" />
-                            </div>
-                        </form>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" form="formPost" class="btn btn-primary">Submit
+                                Response</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -330,7 +339,8 @@ if (isset($_SESSION['id'])) {
                             <form id="responseForm">
                                 <div class="mb-3">
                                     <label for="responseText" class="form-label">Your Response</label>
-                                    <textarea class="form-control" id="responseText" name="responseText" rows="3"></textarea>
+                                    <textarea class="form-control" id="responseText" name="responseText"
+                                        rows="3"></textarea>
                                 </div>
                                 <div class="mb-3">
                                     <label for="responseImage" class="form-label">Image (Optional)</label>
@@ -343,11 +353,10 @@ if (isset($_SESSION['id'])) {
                             </div>
                         </div>
                         <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" form="responseForm" class="btn btn-primary">Submit
-                                        Response</button>
-                            </div>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" form="responseForm" class="btn btn-primary">Submit
+                                Response</button>
+                        </div>
                     </div>
                 </div>
             </div>
