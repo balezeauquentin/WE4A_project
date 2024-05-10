@@ -27,7 +27,10 @@ $(document).ready(function() {
             },
             success: function(response) {
                 response = JSON.parse(response);
+                if (selectedOption == "Usernames")
                 displayUsers(response);
+                else if (selectedOption == "Posts")
+                displayPosts(response);
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.log("Error when connecting to the server.");
@@ -53,5 +56,25 @@ function displayUsers(data) {
         + user.username + "\'><div class=' me-4 rounded-1' style='width: 40px; height: 40px; background: url(\""
         + user.profile_picture_path + "\"); background-size: cover;\'></div><div>"
         + user.username + "</div></a>");
+    });
+}
+
+function displayPosts(data) {
+    var container = $('#search-container');
+
+    // Clear the container
+    container.empty();
+
+    if (data.length === 0) {
+        container.append("No posts found.");
+        return;
+    }
+    // Iterate over the data
+    data.forEach(function(post) {
+        // Cursed but its fine
+        container.append("<div class='d-flex align-items-left justify-content-left'><div class=' me-4 rounded-1' style='width: 40px; height: 40px; background: url(\""
+        + post.profile_picture_path + "\"); background-size: cover;\'></div><div><p>"
+        + post.username + "<br>"
+        + post.content + "</p></div></div>");
     });
 }
