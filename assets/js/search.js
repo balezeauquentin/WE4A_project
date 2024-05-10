@@ -72,9 +72,10 @@ function displayPosts(data) {
     // Iterate over the data
     data.forEach(function(post) {
         // Cursed but its fine
-        container.append("<div class='d-flex align-items-left justify-content-left'><div class=' me-4 rounded-1' style='width: 40px; height: 40px; background: url(\""
+        container.append("<a class='d-flex align-items-left justify-content-left text-decoration-none link-dark' href='./posts.php?="
+        + post.id + "'><div class=' me-4 rounded-1' style='width: 40px; height: 40px; background: url(\""
         + post.profile_picture_path + "\"); background-size: cover;\'></div><div><p>"
         + post.username + "<br>"
-        + post.content + "</p></div></div>");
+        + post.content + "</p></div></a>");
     });
 }

@@ -23,7 +23,7 @@ function searchUsername($db, $username) {
 }
 
 function searchPost($db, $postText) {
-    $req = $db->prepare("SELECT posts.content, users.username, users.profile_picture_path FROM posts INNER JOIN users ON posts.id_user = users.id WHERE content LIKE :text");
+    $req = $db->prepare("SELECT posts.id, posts.content, users.username, users.profile_picture_path FROM posts INNER JOIN users ON posts.id_user = users.id WHERE content LIKE :text");
     $req->bindValue(':text', '%' . $postText . '%');
     $req->execute();
     $posts = $req->fetchAll();
