@@ -10,9 +10,6 @@ require_once dirname(__FILE__) . '/assets/phptools/template_top.php';
 ?>
 
 <body data-user-id="<?php echo $_SESSION['id'] ?>"></body>
-<div class="mt-5 mb-5 pb-5">
-
-</div>
 <table class="table">
     <thead>
         <tr>

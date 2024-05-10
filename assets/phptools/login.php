@@ -51,5 +51,5 @@ if (isset($error)) {
     echo json_encode(array('error' => true, 'message' => $error));
 } else if (isset($success)){
     header('Content-Type: application/json');
-    echo json_encode(array('success' => true, 'message' => $success));
+    echo json_encode(array('success' => true, 'message' => $success, 'userId' => $_SESSION['id'], 'username' => $_SESSION['username'], 'admin' => $_SESSION['admin']));
 }

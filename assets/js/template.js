@@ -2,6 +2,7 @@
 $('#formLoginId').submit(function (e) {
     e.preventDefault();
     var formData = $(this).serialize();
+
     $.ajax({
         type: 'POST',
         url: '/WE4A_project/assets/phptools/login.php',
@@ -11,6 +12,10 @@ $('#formLoginId').submit(function (e) {
                 $('#error-message').text(response.message);
             } else if (response.success){
                 $('#success-message').text(response.message);
+                sessionStorage.setItem('userId', response.userId);
+                sessionStorage.setItem('username', response.username);
+                sessionStorage.setItem('admin', response.admin);
+
                 setTimeout(function () {
                     location.reload();
                 }, 1000);
@@ -25,6 +30,7 @@ $('#formLoginId').submit(function (e) {
 /* register */
 $('#formRegisterId').submit(function (e) {
     e.preventDefault();
+
     var formData = $(this).serialize();
     $.ajax({
         type: 'POST',
@@ -34,6 +40,7 @@ $('#formRegisterId').submit(function (e) {
             if (response.error) {
                 $('#error-message-r').text(response.message);
             } else if (response.success){
+
                 $('#success-message-r').text(response.message);
                 setTimeout(function () {
                     location.reload();
@@ -46,9 +53,34 @@ $('#formRegisterId').submit(function (e) {
     });
 });
 
+$('#formAdmin').submit(function (e) {
+    e.preventDefault();
+    if ($('#notif-message').val().length === 0) {
+        $('#error-message-admin').text('Veuillez entrer un message.');
+        return;
+    }
+    let formData = $(this).serialize();
+    $.ajax({
+        type: 'POST',
+        url: 'assets/phptools/admin.php',
+        data: formData,
+        success: function (response) {
+            if (response.error) {
+                $('#error-message-admin').text(response.message);
+            } else {
+                $('#modalAdmin').modal('hide');
+                let notifToast = new bootstrap.Toast(document.getElementById('sendNotifToast'));
+                notifToast.show();
+            }
+            document.getElementById('formAdmin').reset();
+        }
+    });
+});
+
 /* Logout */
 $('#logout-button').click(function (e) {
     e.preventDefault();
+    sessionStorage.clear();
     var formData = $(this).serialize();
     $.ajax({
         type: 'POST',
@@ -100,9 +132,9 @@ $(document).ready(function () {
             success: function (response) {
                 responses = JSON.parse(response);
                 if (responses.error) {
-                    $('#responseError').text(responses.message);
+                    $('#postError').text(responses.message);
                 } else if (responses.success) {
-                    $('#responseSuccess').text(responses.message);
+                    $('#postSuccess').text(responses.message);
                     setTimeout(function () {
                         location.reload();
                     }, 1000);

@@ -44,6 +44,9 @@ session_start_secure();
     <?php endif;
     if ($pageTitle === "Notifications"): ?>
         <script src="/WE4A_project/assets/js/notificationManager.js" defer></script>
+    <?php endif;
+    if ($pageTitle == 'Post'): ?>
+        <script src="/WE4A_project/assets/js/posthandler.js" defer></script>
     <?php endif; ?>
 
 </head>
@@ -93,13 +96,7 @@ if (isset($_SESSION['id'])) {
                                         class="bi bi-bar-chart"></i>
                                     Statistics</a>
                             </li>
-                            <?php if ($_SESSION['admin'] === 1): ?>
-                                <li class="nav-item mb-4">
-                                    <a class="nav-link <?php if ($pageTitle === "Admin")
-                                        echo "active"; ?>" href="/WE4A_project/statistics.php"><i
-                                            class="bi bi-person-gear"></i> Admin</a>
-                                </li>
-                            <?php endif; ?>
+
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                 data-bs-target="#modalPost">
                                 Send a Z
@@ -142,11 +139,11 @@ if (isset($_SESSION['id'])) {
                 </div>
             </div>
             <!-- Modal - Poster -->
-            <div class="modal fade" id="modalPost" tabindex="-1" aria-labelledby="modalResponsLabel" aria-hidden="true">
+            <div class="modal fade" id="modalPost" tabindex="-1" aria-labelledby="modalPostLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="modalResponsLabel">Send a Z</h5>
+                            <h5 class="modal-title" id="modalPostLabel">Send a Z</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -163,8 +160,8 @@ if (isset($_SESSION['id'])) {
                         </div>
                         <div class="modal-footer">
                             <div>
-                                <div id="responseError" class="text-danger"></div>
-                                <div id="responseSuccess" class="text-success"></div>
+                                <div id=postError" class="text-danger"></div>
+                                <div id="postSuccess" class="text-success"></div>
                             </div>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <button type="submit" form="formPost" class="btn btn-primary">Submit
@@ -324,6 +321,9 @@ if (isset($_SESSION['id'])) {
                     </div>
                 </div>
             </div>
+
+           
+
             <!-- Modal - response -->
             <div class="modal fade" id="modalRespons" tabindex="-1" aria-labelledby="modalResponsLabel"
                 aria-hidden="true">
@@ -360,4 +360,31 @@ if (isset($_SESSION['id'])) {
                     </div>
                 </div>
             </div>
+            <!-- Modal - Admin -->
+            <?php
+            if (isset($_SESSION['admin']) == '1'): ?>
+            <div class="modal fade" id="modalAdmin" tabindex="-1" role="dialog" aria-labelledby="modalAdminLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <form id="formAdmin" class="formAdmin" method="POST" action="assets/phptools/admin.php">
+                                <div class="modal-header bg-danger text-white">
+                                    <h5 class="modal-title" id="modalAdminLabel"></h5>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <textarea class="form-control" id="notif-message" name="notifMessage" rows="3" required></textarea>
+                                    </div>
+                                    <input type="hidden" id="admin-post-control-id" name="adminPostControlId" value=""/>
+                                    <input type="hidden" id="admin-action-type" name="adminActionType" value=""/>
+                                    <div id="error-message-admin" class="text-danger text-align-center"></div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>                                
+                                    <input type="submit" class="btn btn-danger" name="formAdmin" value="Submit"/>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
             <div class="col-6 p-0 vh-100 overflow-auto">

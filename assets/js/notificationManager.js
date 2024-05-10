@@ -6,6 +6,8 @@ function insertNotif(notifInfo, element) {
         notifInfo.type = '<i class="bi bi-chat-left-fill text-info fs-5 text-center"></i>';
     } else if (notifInfo.type == 'follow') {
         notifInfo.type = '<i class="bi bi-person-fill text-success fs-5 text-center"></i>';
+    } else if (notifInfo.type == 'warning') {
+        notifInfo.type = '<i class="bi bi-exclamation-triangle text-warning fs-5 text-center"></i>';
     }
 
     if (notifInfo.is_read == 0) {
