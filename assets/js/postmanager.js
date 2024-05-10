@@ -91,6 +91,7 @@ function insertPost(postInfo, element) {
 function insertPostInModal(postInfo, element) {
     var username;
 
+    console.log(postInfo);
     if (postInfo.isbanned == 1 && postInfo.admin == 1) {
         username = postInfo.username + "<span class='ms-2 badge bg-danger'><i class='bi bi-person-fill-gear'></i></span> <span class='ms-1 badge bg-danger'>BANNED</i></span>";
     } else if (postInfo.isbanned == 1) {
@@ -131,7 +132,9 @@ function openModalWithPost(clickedButton) {
         },
         success: function (response) {
             var responses = JSON.parse(response);
-            insertPostInModal(responses, modalPostContent);
+            for (rep of responses) {
+            insertPostInModal(rep, modalPostContent);
+            }
         }
     });
 

@@ -63,27 +63,14 @@ function getPostById($id)
 {
     global $db;
     $query = $db->prepare("
-    (
-        SELECT p.*, users.isbanned, users.admin, users.username, users.profile_picture_path as profile_picture_path, likes.id as like_id,
-        (SELECT COUNT(*) FROM posts WHERE posts.id_parent = p.id) as comment_count,
-        (SELECT COUNT(*) FROM likes WHERE likes.id_post = p.id) as like_count
-        FROM posts p
-        INNER JOIN users ON p.id_user = users.id
-        LEFT JOIN likes ON p.id = likes.id_post
-        WHERE p.id = :id
-      
-      ) UNION ALL
-      
-      (
-        SELECT r.*, users.isbanned, users.admin, users.username, users.profile_picture_path as profile_picture_path, likes.id as like_id,
-        (SELECT COUNT(*) FROM posts WHERE posts.id_parent = p.id) as comment_count,
-        (SELECT COUNT(*) FROM likes WHERE likes.id_post = r.id) as like_count
-        FROM posts p
-        INNER JOIN posts r ON p.id = r.id_parent
-        INNER JOIN users ON r.id_user = users.id
-        LEFT JOIN likes ON r.id = likes.id_post
-        WHERE p.id = :id
-      )");
+    SELECT p.*, users.isbanned, users.admin, users.username, users.profile_picture_path as profile_picture_path, likes.id as like_id,
+    (SELECT COUNT(*) FROM posts WHERE posts.id_parent = p.id) as comment_count,
+    (SELECT COUNT(*) FROM likes WHERE likes.id_post = p.id) as like_count
+  FROM posts p
+  INNER JOIN users ON p.id_user = users.id
+  LEFT JOIN likes ON p.id = likes.id_post AND likes.id_user
+  WHERE p.id = :id
+  LIMIT 1");
     $query->bindValue(':id', $id, PDO::PARAM_INT);
     $query->execute();
     $posts = $query->fetchAll();
