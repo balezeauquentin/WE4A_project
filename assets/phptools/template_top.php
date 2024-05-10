@@ -91,7 +91,7 @@ if (isset($_SESSION['id'])) {
                                 <a class="nav-link <?php if ($pageTitle === "Statistics")
                                     echo "active"; ?>" href="/WE4A_project/statistics.php"><i
                                         class="bi bi-bar-chart"></i>
-                                    Statistcs</a>
+                                    Statistics</a>
                             </li>
                             <?php if ($_SESSION['admin'] === 1): ?>
                                 <li class="nav-item mb-4">

@@ -9,6 +9,15 @@ $(document).ready(function() {
     $('#search-btn').click(function() {
         var searchText = $('#text-input').val(); // Get the text from the input field
 
+        if (searchText.trim().length < 3) {
+            var container = $('#search-container');
+
+            // Clear the container
+            container.empty();
+            container.append("Please write at least 3 characters.");
+            return;
+        }
+
         $.ajax({
             url: 'assets/phptools/search_handler.php',
             type: 'POST',
@@ -18,7 +27,7 @@ $(document).ready(function() {
             },
             success: function(response) {
                 response = JSON.parse(response);
-                console.log(response);
+                displayUsers(response);
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.log("Error when connecting to the server.");
@@ -26,3 +35,23 @@ $(document).ready(function() {
         });
     });
 });
+
+function displayUsers(data) {
+    var container = $('#search-container');
+
+    // Clear the container
+    container.empty();
+
+    if (data.length === 0) {
+        container.append("No users found.");
+        return;
+    }
+    // Iterate over the data
+    data.forEach(function(user) {
+        // Cursed but its fine
+        container.append("<a class='d-flex align-items-center justify-content-around text-decoration-none link-dark' href='./profile.php?username="
+        + user.username + "\'><div class=' me-4 rounded-1' style='width: 40px; height: 40px; background: url(\""
+        + user.profile_picture_path + "\"); background-size: cover;\'></div><div>"
+        + user.username + "</div></a>");
+    });
+}

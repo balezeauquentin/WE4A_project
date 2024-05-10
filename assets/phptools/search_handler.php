@@ -15,8 +15,8 @@ if (isset($_POST['searchText']) && isset($_POST['searchType'])) {
 
 
 function searchUsername($db, $username) {
-        $req = $db->prepare("SELECT * FROM users WHERE username = :username");
-        $req->bindValue(':username', $username);
+        $req = $db->prepare("SELECT users.username, users.profile_picture_path FROM users WHERE username LIKE :username");
+        $req->bindValue(':username', '%' . $username . '%');
         $req->execute();
         $posts = $req->fetchAll();
         return $posts;

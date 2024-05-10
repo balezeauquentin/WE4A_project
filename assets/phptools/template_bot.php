@@ -18,6 +18,7 @@
             <option>Posts</option>
             </select>
         </div>
+        <div id="search-container" class="overflow-auto h-100 mt-2 d-flex flex-column align-items-center"></div>
     </div>
     <!-- End of modal -->
 </div>
