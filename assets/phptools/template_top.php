@@ -17,14 +17,14 @@ session_start_secure();
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="/WE4A_project/assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/style.css">
 
-    <script src="/WE4A_project/assets/js/jquery-3.7.1.min.js" defer></script>
+    <script src="assets/js/jquery-3.7.1.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"
         defer></script>
 
-    <script src="/WE4A_project/assets/js/template.js" defer></script>
+    <script src="assets/js/template.js" defer></script>
 
     <?php
     if (isset($_GET['username'])) {
@@ -33,20 +33,20 @@ session_start_secure();
         $username = null;
     }
     if ($pageTitle == $username): ?>
-        <script src="/WE4A_project/assets/js/profile.js" defer></script>
-        <script src="/WE4A_project/assets/js/follow.js" defer></script>
+        <script src="assets/js/profile.js" defer></script>
+        <script src="assets/js/follow.js" defer></script>
     <?php endif;
     if ($pageTitle === "Home" || $pageTitle == $username): ?>
-        <script src="/WE4A_project/assets/js/postmanager.js" defer></script>
+        <script src="assets/js/postmanager.js" defer></script>
     <?php endif;
     if ($pageTitle === "Settings"): ?>
-        <script src="/WE4A_project/assets/js/updatesettings.js" defer></script>
+        <script src="assets/js/updatesettings.js" defer></script>
     <?php endif;
     if ($pageTitle === "Notifications"): ?>
-        <script src="/WE4A_project/assets/js/notificationManager.js" defer></script>
+        <script src="assets/js/notificationManager.js" defer></script>
     <?php endif;
     if ($pageTitle == 'Post'): ?>
-        <script src="/WE4A_project/assets/js/posthandler.js" defer></script>
+        <script src="assets/js/posthandler.js" defer></script>
     <?php endif; ?>
 
 </head>
@@ -66,7 +66,7 @@ if (isset($_SESSION['id'])) {
             <div class="col-2 p-0 vh-100">
                 <!-- Sidebar -->
                 <div class="d-flex flex-column flex-shrink-0 p-3 bg-light h-100">
-                    <a href="/WE4A_project/index.php">
+                    <a href="index.php">
                         <img class="rounded-circle mt-3 mx-auto d-block " width="40" height="40"
                             src="assets/img/logo.png">
                     </a>
@@ -74,25 +74,25 @@ if (isset($_SESSION['id'])) {
                     <ul class="nav nav-pills flex-column mb-auto">
                         <li class="nav-item mb-2">
                             <a class="nav-link <?php if ($pageTitle === "Home")
-                                echo "active"; ?>" href="/WE4A_project/index.php"><i class="bi bi-house"></i> Home</a>
+                                echo "active"; ?>" href="index.php"><i class="bi bi-house"></i> Home</a>
                         </li>
                         <?php
                         if (isset($_SESSION['id'])): ?>
                             <li class="nav-item mb-2">
                                 <a class="nav-link <?php if ($pageTitle === "Notifications")
-                                    echo "active"; ?>" href="/WE4A_project/notifications.php"><i
+                                    echo "active"; ?>" href="notifications.php"><i
                                         class="bi bi-bell"></i>
                                     Notifications <span class="badge bg-danger" id="notification-badge"></span></a>
                             </li>
                             <li class="nav-item mb-2">
                                 <a class="nav-link <?php if ($pageTitle === $_SESSION['username'])
                                     echo "active" ?>"
-                                        href="/WE4A_project/profile.php?username=<?php echo $_SESSION['username'] ?>"><i
+                                        href="profile.php?username=<?php echo $_SESSION['username'] ?>"><i
                                         class="bi bi-person"></i> Profile</a>
                             </li>
                             <li class="nav-item mb-2">
                                 <a class="nav-link <?php if ($pageTitle === "Statistics")
-                                    echo "active"; ?>" href="/WE4A_project/statistics.php"><i
+                                    echo "active"; ?>" href="statistics.php"><i
                                         class="bi bi-bar-chart"></i>
                                     Statistics</a>
                             </li>
@@ -117,7 +117,7 @@ if (isset($_SESSION['id'])) {
                                 <strong class="fs-5"><?php echo $_SESSION['username']; ?></strong>
                             </a>
                             <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
-                                <li><a class="dropdown-item" href="/WE4A_project/settings.php"><i
+                                <li><a class="dropdown-item" href="settings.php"><i
                                             class="bi bi-person-gear"></i> Settings</a></li>
                                 <li>
                                     <hr class="dropdown-divider">

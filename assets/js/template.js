@@ -5,7 +5,7 @@ $('#formLoginId').submit(function (e) {
 
     $.ajax({
         type: 'POST',
-        url: '/WE4A_project/assets/phptools/login.php',
+        url: 'assets/phptools/login.php',
         data: formData,
         success: function (response) {
             if (response.error) {
@@ -34,7 +34,7 @@ $('#formRegisterId').submit(function (e) {
     var formData = $(this).serialize();
     $.ajax({
         type: 'POST',
-        url: '/WE4A_project/assets/phptools/register.php',
+        url: 'assets/phptools/register.php',
         data: formData,
         success: function (response) {
             if (response.error) {
@@ -84,11 +84,11 @@ $('#logout-button').click(function (e) {
     var formData = $(this).serialize();
     $.ajax({
         type: 'POST',
-        url: '/WE4A_project/assets/phptools/logout.php',
+        url: 'assets/phptools/logout.php',
         data: formData,
         success: function (response) {
             setTimeout(function () {
-                window.location.href = "/WE4A_project/index.php"
+                window.location.href = "index.php"
             });
         }
     });
@@ -125,7 +125,7 @@ $(document).ready(function () {
         formData.append('sendPost', true);
         $.ajax({
             type: 'POST',
-            url: '/WE4A_project/assets/phptools/postmanager.php',
+            url: 'assets/phptools/postmanager.php',
             data: formData,
             processData: false,
             contentType: false,

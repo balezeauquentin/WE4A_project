@@ -12,8 +12,11 @@ function insertPost(postInfo, element) {
     }
 
     var userId = document.body.dataset.userId;
-    var response;
 
+
+  
+
+    var response;
     if (userId) {
         response = `<div class='d-flex ms-2'>
         <a href='#' id='likeButton' data-post-id='${postInfo.id}' class='ms-5 me-5 text-dark text-decoration-none'> <i class="like bi bi-heart"></i> <span class="like-count">${postInfo.like_count}</span></a>
@@ -52,6 +55,8 @@ function insertPost(postInfo, element) {
     } else {
         sensitive = '';
     }
+
+
         
 
 
@@ -59,14 +64,14 @@ function insertPost(postInfo, element) {
         <div class='border-top mt-2 pt-2' data-post-id='${postInfo.id}'> 
             <div class='d-flex'>
                 <div class='d-flex'>
-                    <a href='/WE4A_project/profile.php?username=${postInfo.username}'>
+                    <a href='profile.php?username=${postInfo.username}'>
                     <div class='rounded-1 mt-1 ms-2' style='width: 40px; height: 40px; background: url("${postInfo.profile_picture_path}") no-repeat center center; background-size: cover;'></div>
                     </a>
                     </div>
                     <a class='text-decoration-none' href='/posts.php?id=${postInfo.id}'>
                         <div class='ms-2 mb-2'>
                         ${sensitive}
-                            <a href='/WE4A_project/profile.php?username=${postInfo.username}' class='link-dark link-offset-1 link-offset-1-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover'><strong>${username}</strong></a>
+                            <a href='profile.php?username=${postInfo.username}' class='link-dark link-offset-1 link-offset-1-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover'><strong>${username}</strong></a>
                             <div class="text-muted mt mb-2">${postInfo.date}</div>
                             <div>${postInfo.content}</div>
                         </div>
@@ -99,13 +104,13 @@ function insertPostInModal(postInfo, element) {
     var html = `
             <div class='d-flex'>
                 <div class='d-flex'>
-                <a href='/WE4A_project/profile.php?username=${postInfo.username}'>
+                <a href='profile.php?username=${postInfo.username}'>
                     <div class='rounded-1 mt-1 ms-2' style='width: 40px; height: 40px; background: url("${postInfo.profile_picture_path}") no-repeat center center; background-size: cover;'></div>
                         </a>
                     </div>
                     <a href='/profile.php?post=${postInfo.id}'>
                     <div class='ms-2 mb-2'>
-                        <a href='/WE4A_project/profile.php?username=${postInfo.username}' class='link-dark link-offset-1 link-offset-1-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover'><strong>${username}</strong></a><div class="text-muted mt mb-2">${postInfo.date}</div>
+                        <a href='profile.php?username=${postInfo.username}' class='link-dark link-offset-1 link-offset-1-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover'><strong>${username}</strong></a><div class="text-muted mt mb-2">${postInfo.date}</div>
                         <div>${postInfo.content}</div>
                     </div>
                 </a>`;
@@ -138,7 +143,7 @@ function openModalWithPost(clickedButton) {
         formData.append('responseToPost', true);
         $.ajax({
             type: 'POST',
-            url: '/WE4A_project/assets/phptools/postmanager.php',
+            url: 'assets/phptools/postmanager.php',
             data: formData,
             processData: false,
             contentType: false,
@@ -264,10 +269,10 @@ $(document).ready(function () {
         sessionStorage.setItem('token', token);
     }
 
-    if (window.location.pathname == '/WE4A_project/profile.php') {
+    if (window.location.pathname.includes('profile')) {
         PostByUser(profileId);
     }
-    if (window.location.pathname == '/WE4A_project/index.php') {
+    if (window.location.pathname.includes('index')) {
         RandomPost(token);
         $('#posts-container .post').on('scroll', function () {
             if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
@@ -275,7 +280,7 @@ $(document).ready(function () {
             }
         });
     }
-    if (window.location.pathname == '/WE4A_project/posts.php') {
+    if (window.location.pathname.includes('posts')) {
        PostById();
     }
     $(document).on('click', '#likeButton', function(e) {
@@ -285,7 +290,7 @@ $(document).ready(function () {
         var likeCount = parseInt(likeCountElement.text()) || 0;
         $.ajax({
             type: 'POST',
-            url: '/WE4A_project/assets/phptools/postmanager.php',
+            url: 'assets/phptools/postmanager.php',
             data: {
                 likePost: true,
                 userId: userId,
@@ -316,7 +321,7 @@ $(document).ready(function() {
                 console.log('send warning');
                 $.ajax({
                     type: 'POST',
-                    url: '/WE4A_project/assets/phptools/postmanager.php',
+                    url: 'assets/phptools/postmanager.php',
                     data: {
                         sendWarning: true,
                         userId: userId,

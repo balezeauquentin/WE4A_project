@@ -1,6 +1,6 @@
 </div>
 
-<script src="/WE4A_project/assets/js/search.js" defer></script>
+<script src="assets/js/search.js" defer></script>
 
 <div class="col-2 p-0 vh-100">
     <div class="d-flex flex-column flex-shrink-0 p-3 bg-light h-100">

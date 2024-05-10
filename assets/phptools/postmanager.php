@@ -35,14 +35,14 @@ function getPostByUser($id_user)
 
     $id_user_like = $_SESSION['id'];
     $query = $db->prepare("
-    SELECT p.*, users.isbanned, users.admin, users.username, users.profile_picture_path as profile_picture_path,    
-       (SELECT COUNT(*) FROM posts WHERE posts.id_parent = p.id) as comment_count,
-       (SELECT COUNT(*) FROM likes WHERE likes.id_post = p.id) as like_count
+    SELECT p.*, users.isbanned, users.admin, users.username, users.profile_picture_path,
+    (SELECT COUNT(*) FROM posts WHERE posts.id_parent = p.id) as comment_count,
+    (SELECT COUNT(*) FROM likes WHERE likes.id_post = p.id) as like_count,
     FROM posts p 
     INNER JOIN users ON p.id_user = users.id 
     LEFT JOIN likes ON p.id = likes.id_post
     WHERE p.id_user = :id_user");
-    $query->bindValue(':id_user', $id_user, PDO::PARAM_INT);
+    $query->bindValue(':islike', $id_user_like, PDO::PARAM_INT);
     $query->execute();
     $posts = $query->fetchAll();
     $listPosts = array();
@@ -76,7 +76,7 @@ function getPostById($id)
       
       (
         SELECT r.*, users.isbanned, users.admin, users.username, users.profile_picture_path as profile_picture_path, likes.id as like_id,
-        0 as comment_count,
+        (SELECT COUNT(*) FROM posts WHERE posts.id_parent = p.id) as comment_count,
         (SELECT COUNT(*) FROM likes WHERE likes.id_post = r.id) as like_count
         FROM posts p
         INNER JOIN posts r ON p.id = r.id_parent
@@ -84,7 +84,6 @@ function getPostById($id)
         LEFT JOIN likes ON r.id = likes.id_post
         WHERE p.id = :id
       )");
-
     $query->bindValue(':id', $id, PDO::PARAM_INT);
     $query->execute();
     $posts = $query->fetchAll();

@@ -59,14 +59,14 @@ function insertPostParent(postInfo, element) {
         <div class='border-top mt-2 pt-2' data-post-id='${postInfo.id}'> 
             <div class='d-flex'>
                 <div class='d-flex'>
-                    <a href='/WE4A_project/profile.php?username=${postInfo.username}'>
+                    <a href='profile.php?username=${postInfo.username}'>
                     <div class='rounded-1 mt-1 ms-2' style='width: 40px; height: 40px; background: url("${postInfo.profile_picture_path}") no-repeat center center; background-size: cover;'></div>
                     </a>
                     </div>
                     <a class='text-decoration-none' href='/posts.php?id=${postInfo.id}'>
                         <div class='ms-2 mb-2'>
                         ${sensitive}
-                            <a href='/WE4A_project/profile.php?username=${postInfo.username}' class='link-dark link-offset-1 link-offset-1-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover'><strong>${username}</strong></a>
+                            <a href='profile.php?username=${postInfo.username}' class='link-dark link-offset-1 link-offset-1-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover'><strong>${username}</strong></a>
                             <div class="text-muted mt mb-2">${postInfo.date}</div>
                             <div>${postInfo.content}</div>
                         </div>
@@ -144,14 +144,14 @@ function insertPost(postInfo, element) {
         <div class='border-top mt-2 pt-2' data-post-id='${postInfo.id}'> 
             <div class='d-flex'>
                 <div class='d-flex'>
-                    <a href='/WE4A_project/profile.php?username=${postInfo.username}'>
+                    <a href='profile.php?username=${postInfo.username}'>
                     <div class='rounded-1 mt-1 ms-2' style='width: 40px; height: 40px; background: url("${postInfo.profile_picture_path}") no-repeat center center; background-size: cover;'></div>
                     </a>
                     </div>
                     <a class='text-decoration-none' href='/posts.php?id=${postInfo.id}'>
                         <div class='ms-2 mb-2'>
                         ${sensitive}
-                            <a href='/WE4A_project/profile.php?username=${postInfo.username}' class='link-dark link-offset-1 link-offset-1-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover'><strong>${username}</strong></a>
+                            <a href='profile.php?username=${postInfo.username}' class='link-dark link-offset-1 link-offset-1-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover'><strong>${username}</strong></a>
                             <div class="text-muted mt mb-2">${postInfo.date}</div>
                             <div>${postInfo.content}</div>
                         </div>
