@@ -5,11 +5,15 @@ session_start_secure();
 
 if (isset($_POST['username-r']) && isset($_POST['password-r']) && isset($_POST['mail-r']) && isset($_POST['password2-r'])) {
     $username = validateUserInput($_POST['username-r']);
+
+    if($username < 3 || $username > 30){
+        $error = "Username must be between 3 and 30 characters.";
+    }
+
     $email = validateUserInput($_POST['mail-r']);
 
     $password = validateUserInput($_POST['password-r']);
     $password2 = validateUserInput($_POST['password2-r']);
-    $test = "false";
     if ($password == $password2) {
         if (isset($_POST['firstname-r']) && isset($_POST['name-r']) && isset($_POST['day-r']) && isset($_POST['month-r']) && isset($_POST['year-r'])) {
             $firstname = validateUserInput($_POST['firstname-r']);
