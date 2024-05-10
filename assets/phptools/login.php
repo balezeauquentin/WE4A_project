@@ -21,7 +21,7 @@ if (isset($_POST['user']) && isset($_POST['password-l'])) {
                         $_SESSION['username'] = $userData['username'];
                         $_SESSION['profile_picture_path'] = $userData['profile_picture_path'];
                         if (empty($_SESSION['profile_picture_path'])) {
-                            $_SESSION['profile_picture_path'] = null;
+                            $_SESSION['profile_picture_path'] = 'user_img/0/pp.png';
                         } else {
                             $_SESSION['profile_picture_path'] = $userData['profile_picture_path'];
                         }

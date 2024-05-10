@@ -13,7 +13,6 @@ $(document).ready(function() {
             if (response == 'Follow') {
             $('#follow').attr('data-follow', 'follow');
             $('#follow').text('Unfollow');
-            $('#follower')
             } else if (response == 'Unfollow') {
             $('#follow').attr('data-follow', 'follow');
             $('#follow').text('Follow');

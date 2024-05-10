@@ -1,15 +1,27 @@
 <?php
 
-$pageTitle = $_GET['username'];
+if (isset($_GET['username'])){
+    $pageTitle = $_GET['username'];
+} else {
+    $pageTitle = 'Profile';
+}
+
 
 require_once dirname(__FILE__) . '/assets/phptools/template_top.php';
+
 require_once dirname(__FILE__) . '/assets/phptools/profileTools.php';
+
+if (isset($_GET['username'])) {
+    if (isExistingProfile($_GET['username'])) {
+        $profile_data = getProfileData($_GET['username']);
+    }
+}
+
+
+if(!empty($profile_data) && is_array($profile_data)):
 require_once dirname(__FILE__) . '/assets/phptools/postmanager.php';
 require_once dirname (__FILE__) . '/assets/phptools/followManager.php';
-
-$profile_data = getProfileData($_GET['username']);
-
-
+endif;
 ?>
 
 <style>
@@ -32,12 +44,12 @@ if (isset($_SESSION['id'])) {
                 // Check if $profile_data is not empty and is an array
                 if (!empty($profile_data) && is_array($profile_data)) {
                     // Determine banner path
-                    $banner_path = !empty($profile_data['banner_path']) ? $profile_data['banner_path'] : 'user_img/0/banner.jpeg';
+                    $banner_path = !empty($profile_data['banner_path']) ? $profile_data['banner_path'] : 'user_img/0/banner.png';
                     // Determine profile picture path
                     $profile_picture_path = !empty($profile_data['profile_picture_path']) ? $profile_data['profile_picture_path'] : 'user_img/0/pp.png';
                 } else {
                     // Default paths if $profile_data is empty or not an array
-                    $banner_path = 'user_img/0/banner.jpeg';
+                    $banner_path = 'user_img/0/banner.png';
                     $profile_picture_path = 'user_img/0/pp.png';
                 }
                 ?>
@@ -76,8 +88,14 @@ if (isset($_SESSION['id'])) {
                 <div class="mb-2" style="margin-top: 55px;">
                     <?php
                     if (!empty($profile_data) && is_array($profile_data)) {
-                        if (isset($profile_data['username'])) {
-                            echo "<h2 class='bold' id='username'>" . $profile_data['username'] . "</h2>"; // Display username in an H1 tag
+                        if (isset($profile_data['username']) && $profile_data['admin'] == 1) {
+                            echo "<div class='d-flex align-items-center'><h2 class='bold' id='username'>" . $profile_data['username'] . "</h2>"; // Display username in an H2 tag
+                            echo "<span class='ms-2 badge bg-danger'><i class='bi bi-person-fill-gear'></i></span></div>"; // Display badge next to username
+                        } else if (isset($profile_data['username']) && $profile_data['isbanned'] == 1) {
+                            echo "<div class='d-flex align-items-center'><h2 class='bold' id='username'>" . $profile_data['username'] . "</h2>"; // Display username in an H2 tag
+                            echo "<span class='ms-2 badge bg-danger'>BANNED</span></div>"; // Display badge next to username
+                        } else if (isset($profile_data['username'])) {
+                            echo "<h2 class='bold' id='username'>" . $profile_data['username'] .  "</h2>"; // Display username in an H1 tag
                         }
                     } else {
                         echo "<h2 class='bold mt-3'>This user doesn't exist.</h2>";
@@ -86,7 +104,9 @@ if (isset($_SESSION['id'])) {
                 </div>
                 <?php
                 if (!empty($profile_data) && is_array($profile_data)) {
-                    echo $profile_data['bio'];
+                    if (isset($profile_data['bio'])){
+                        echo $profile_data['bio'];
+                    }
                 }
                 ?>
                 <?php
@@ -106,13 +126,17 @@ if (isset($_SESSION['id'])) {
                     $followers = isset($profile_data['followers']) ? $profile_data['followers'] : 0;
                     $following = isset($profile_data['following']) ? $profile_data['following'] : 0;
                 }
+                if (isset($followers) && isset($following)) :
                 ?>
                 <div class='mt-3 mb-4'>
                     <i></i><?php echo $followers; ?> <a class="text-black text-decoration-none" href="">followers</a>
                     <i class="ms-2"></i><?php echo $following; ?> <a class="text-black text-decoration-none" href="">following </a>
                 </div>
-            </div>
 
+                <?php
+                endif;
+                ?>
+                            </div>
             <div id="posts-container">
                 <!--TODO: get posts by user-->
             </div>

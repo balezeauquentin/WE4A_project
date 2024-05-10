@@ -23,27 +23,27 @@ session_start_secure();
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"
         defer></script>
-        
+
     <script src="/WE4A_project/assets/js/template.js" defer></script>
-    
-    <?php 
-    if (isset($_GET['username'])){
+
+    <?php
+    if (isset($_GET['username'])) {
         $username = $_GET['username'];
     } else {
         $username = null;
     }
     if ($pageTitle == $username): ?>
-    <script src="/WE4A_project/assets/js/profile.js" defer></script>
-    <script src="/WE4A_project/assets/js/follow.js" defer></script>
+        <script src="/WE4A_project/assets/js/profile.js" defer></script>
+        <script src="/WE4A_project/assets/js/follow.js" defer></script>
     <?php endif;
     if ($pageTitle === "Home" || $pageTitle == $username): ?>
-    <script src="/WE4A_project/assets/js/postmanager.js" defer></script>
+        <script src="/WE4A_project/assets/js/postmanager.js" defer></script>
     <?php endif;
     if ($pageTitle === "Settings"): ?>
-    <script src="/WE4A_project/assets/js/updatesettings.js" defer></script>
-    <?php endif; 
-    if ($pageTitle === "Notifications") :?>
-    <script src="/WE4A_project/assets/js/notificationManager.js" defer></script>
+        <script src="/WE4A_project/assets/js/updatesettings.js" defer></script>
+    <?php endif;
+    if ($pageTitle === "Notifications"): ?>
+        <script src="/WE4A_project/assets/js/notificationManager.js" defer></script>
     <?php endif; ?>
 
 </head>
@@ -52,6 +52,7 @@ if (isset($_SESSION['id'])) {
     echo "<body data-user-id=" . $_SESSION['id'] . "></body>";
 }
 ?>
+
 <body>
     <div class="container-fluid">
         <!-- Container principal -->
@@ -70,38 +71,35 @@ if (isset($_SESSION['id'])) {
                     <ul class="nav nav-pills flex-column mb-auto">
                         <li class="nav-item mb-2">
                             <a class="nav-link <?php if ($pageTitle === "Home")
-                                echo "active"; ?>"
-                                href="/WE4A_project/index.php"><i class="bi bi-house"></i> Home</a>
+                                echo "active"; ?>" href="/WE4A_project/index.php"><i class="bi bi-house"></i> Home</a>
                         </li>
                         <?php
                         if (isset($_SESSION['id'])): ?>
-                        <li class="nav-item mb-2">
-                            <a class="nav-link <?php if ($pageTitle === "Notifications")
-                                echo "active"; ?>"
-                                href="/WE4A_project/notifications.php"><i class="bi bi-bell"></i> Notifications <span class="badge bg-danger" id="notification-badge"></span></a>
-                        </li>
-                        <li class="nav-item mb-2">
-                            <a class="nav-link <?php if ($pageTitle === "Messages")
-                                echo "active"; ?>"
-                                href="/WE4A_project/messages.php"><i class="bi bi-chat-left-text"></i> Messages</a>
-                        </li>
-                        <li class="nav-item mb-2">
-                            <a class="nav-link <?php if($pageTitle === $_SESSION['username']) echo "active" ?>"
-                                    href="/WE4A_project/profile.php?username=<?php echo $_SESSION['username'] ?>"><i
+                            <li class="nav-item mb-2">
+                                <a class="nav-link <?php if ($pageTitle === "Notifications")
+                                    echo "active"; ?>" href="/WE4A_project/notifications.php"><i
+                                        class="bi bi-bell"></i>
+                                    Notifications <span class="badge bg-danger" id="notification-badge"></span></a>
+                            </li>
+                            <li class="nav-item mb-2">
+                                <a class="nav-link <?php if ($pageTitle === $_SESSION['username'])
+                                    echo "active" ?>"
+                                        href="/WE4A_project/profile.php?username=<?php echo $_SESSION['username'] ?>"><i
                                         class="bi bi-person"></i> Profile</a>
-                        </li>
-                        <li class="nav-item mb-2">
-                            <a class="nav-link <?php if ($pageTitle === "Statistics")
-                                echo "active"; ?>"
-                                href="/WE4A_project/statistics.php"><i class="bi bi-bar-chart"></i> Statistcs</a>
-                        </li>
-                        <?php if($_SESSION['admin'] === 1): ?>
-                        <li class="nav-item mb-4">
-                            <a class="nav-link <?php if ($pageTitle === "Admin")
-                                echo "active"; ?>"
-                                href="/WE4A_project/statistics.php"><i class="bi bi-person-gear"></i> Admin</a>
-                        </li>
-                        <?php endif; ?>
+                            </li>
+                            <li class="nav-item mb-2">
+                                <a class="nav-link <?php if ($pageTitle === "Statistics")
+                                    echo "active"; ?>" href="/WE4A_project/statistics.php"><i
+                                        class="bi bi-bar-chart"></i>
+                                    Statistcs</a>
+                            </li>
+                            <?php if ($_SESSION['admin'] === 1): ?>
+                                <li class="nav-item mb-4">
+                                    <a class="nav-link <?php if ($pageTitle === "Admin")
+                                        echo "active"; ?>" href="/WE4A_project/statistics.php"><i
+                                            class="bi bi-person-gear"></i> Admin</a>
+                                </li>
+                            <?php endif; ?>
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                 data-bs-target="#modalPost">
                                 Send a Z
@@ -116,25 +114,30 @@ if (isset($_SESSION['id'])) {
                             <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle"
                                 id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
                                 <div class='ms-2 me-2' style='width: 45px; height: 45px; '>
-                                    <img src='<?php echo  $_SESSION['profile_picture_path']; ?>' alt='' class="rounded"
+                                    <img src='<?php echo $_SESSION['profile_picture_path']; ?>' alt='' class="rounded"
                                         style='height:100%; width:100%; object-fit: cover;'>
                                 </div>
                                 <strong class="fs-5"><?php echo $_SESSION['username']; ?></strong>
                             </a>
                             <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
-                                <li><a class="dropdown-item" href="/WE4A_project/settings.php"><i class="bi bi-person-gear"></i> Settings</a></li>
+                                <li><a class="dropdown-item" href="/WE4A_project/settings.php"><i
+                                            class="bi bi-person-gear"></i> Settings</a></li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a id="logout-button" class="dropdown-item" href="#"><i class="bi bi-box-arrow-left"></i> Logout</a></li>
+                                <li><a id="logout-button" class="dropdown-item" href="#"><i
+                                            class="bi bi-box-arrow-left"></i> Logout</a></li>
 
                             </ul>
                         </div>
                     <?php else: ?>
-                        <a href="#" class="d-flex text-align-center link-dark text-decoration-none" data-bs-toggle='modal'
-                            data-bs-target='#modalLogin'>
-                            <strong class="text-center"><i class="bi bi-person-circle fs-3"></i>&nbsp;   Se connecter</strong>
-                        </a>
+                        <div class="d-flex align-items-center">
+                            <a href="#" class="link-dark text-decoration-none" data-bs-toggle='modal'
+                                data-bs-target='#modalLogin'>
+                                <strong class=""><i class="bi bi-person-circle fs-3 me-2"></i>Login</strong>
+                            </a>
+                        </div>
+
                     <?php endif; ?>
                 </div>
             </div>
@@ -212,15 +215,15 @@ if (isset($_SESSION['id'])) {
                                 <h5 class="modal-title" id="modalRegisterLabel">S'inscrire</h5>
                             </div>
                             <div class="modal-body">
-                                    <div class="">
-                                        <label for="username-r" class="form-label">Username</label>
-                                        <input type="text" class="form-control" id="username-r" name="username-r">
-                                    </div>
-                                    <div class="">
-                                        <label for="mail" class="form-label">E-mail</label>
-                                        <input type="text" class="form-control" id="mail" name="mail-r">
-                                        <div class="form-text"></div>
-                                    </div>
+                                <div class="">
+                                    <label for="username-r" class="form-label">Username</label>
+                                    <input type="text" class="form-control" id="username-r" name="username-r">
+                                </div>
+                                <div class="">
+                                    <label for="mail" class="form-label">E-mail</label>
+                                    <input type="text" class="form-control" id="mail" name="mail-r">
+                                    <div class="form-text"></div>
+                                </div>
                                 <div class="row mb-2">
                                     <div class="col">
                                         <label for="password-r" class="form-label">Password</label>
@@ -309,6 +312,42 @@ if (isset($_SESSION['id'])) {
                             </div>
                         </form>
 
+                    </div>
+                </div>
+            </div>
+            <!-- Modal - response -->
+            <div class="modal fade" id="modalRespons" tabindex="-1" aria-labelledby="modalResponsLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalResponsLabel">Responding to Post</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div id="modalPostContent" class="border p-2 mb-3">
+                            </div>
+                            <form id="responseForm">
+                                <div class="mb-3">
+                                    <label for="responseText" class="form-label">Your Response</label>
+                                    <textarea class="form-control" id="responseText" name="responseText" rows="3"></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="responseImage" class="form-label">Image (Optional)</label>
+                                    <input class="form-control" type="file" id="responseImage" name="responseImage">
+                                </div>
+                            </form>
+                            <div>
+                                <div id="responseError" class="text-danger"></div>
+                                <div id="responseSuccess" class="text-success"></div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" form="responseForm" class="btn btn-primary">Submit
+                                        Response</button>
+                            </div>
                     </div>
                 </div>
             </div>

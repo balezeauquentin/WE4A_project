@@ -1,14 +1,3 @@
-function getUserInfo(username) {
-    $.ajax({
-        url: "assets/phptools/profileTools.php",
-        type: 'GET',
-        data: {username: true},
-        success: function(response) {
-        JSON.parse(response);
-
-        },
-    });
-}
 
 
 $(document).ready(function () {

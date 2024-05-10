@@ -12,3 +12,7 @@
   background-color: #6c757d;
   border-radius: 20px;
 }
+
+.inline {
+  display: inline;
+}

@@ -75,7 +75,9 @@ function updateProfile($username, $profile_picture, $banner, $bio)
         $pp_name = "pp." . pathinfo($profile_picture['name'], PATHINFO_EXTENSION);
         $pp_path = $user_img_dir . $pp_name;
         $pp_path_db = "user_img/" . $username . "/" . $pp_name; // Save the path to the database in the format "user_img/username/pp.jpg
-
+        
+        $_SESSION['profile_picture_path'] = $pp_path_db;
+        
         move_uploaded_file($profile_picture['tmp_name'], $pp_path);
     } else {
         $pp_path_db = $current_profile_picture_path; // Use current profile picture path if no new picture is uploaded
@@ -104,8 +106,20 @@ function updateProfile($username, $profile_picture, $banner, $bio)
     }
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+function isExistingProfile($username)
+{
+    global $db;
+    $query = $db->prepare("SELECT COUNT(*) FROM users WHERE username = ?");
+    $query->execute([$username]);
+    $count = $query->fetchColumn();
+    if($count == 1) {
+        return true;
+    } else {
+        return false;
+    }
+}
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $username = $_SESSION['username'];
         $bio = $_POST['bio'];
         
@@ -114,9 +128,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         updateProfile($username, $profile_picture, $banner, $bio);
 
-} else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    if (isset($_GET['username'])) {
-        $username = $_GET['username'];
-        getProfileData($username);
-    }
-}   
+}

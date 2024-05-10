@@ -11,9 +11,9 @@ if (isset($_POST['username-r']) && isset($_POST['password-r']) && isset($_POST['
     $password2 = validateUserInput($_POST['password2-r']);
     $test = "false";
     if ($password == $password2) {
-        if (isset($_POST['firstname-r']) && isset($_POST['lastname-r']) && isset($_POST['day-r']) && isset($_POST['month-r']) && isset($_POST['year-r'])) {
+        if (isset($_POST['firstname-r']) && isset($_POST['name-r']) && isset($_POST['day-r']) && isset($_POST['month-r']) && isset($_POST['year-r'])) {
             $firstname = validateUserInput($_POST['firstname-r']);
-            $lastname = validateUserInput($_POST['lastname-r']);
+            $lastname = validateUserInput($_POST['name-r']);
             
             $day = validateUserInput($_POST['day-r']);
             $month = validateUserInput($_POST['month-r']);
