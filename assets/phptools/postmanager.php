@@ -107,16 +107,7 @@ function getRandomPost($start, $token)
     echo json_encode($listPosts);
 }
 
-function responseToPost($id_parent, $id_user, $content, $image)
-{
-    global $db;
 
-    $content = validateUserInput($content);
-
-    if ()
-
-    echo json_encode(array('error' => false, 'message' => 'Post created'));
-}
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (isset($_GET['getPostById'])) {
@@ -144,7 +135,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
             $content = $_POST['responseText'];
             $image = isset($_FILES['responseImage']) ? $_FILES['responseImage'] : null; 
-            $;
+            
             
 
             responseToPost($_POST['parentId'], $_POST['userId'],$content, $image);
