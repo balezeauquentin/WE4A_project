@@ -96,6 +96,11 @@ if (isset($_SESSION['id'])) {
                                         class="bi bi-bar-chart"></i>
                                     Statistics</a>
                             </li>
+                            <li class="nav-item mb-2">
+                                <a class="nav-link <?php if ($pageTitle === "Settings")
+                                    echo "active"; ?>" href="settings.php"><i class="bi bi-person-gear"></i>
+                                    Settings</a>
+                            </li>
 
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                 data-bs-target="#modalPost">
@@ -117,14 +122,8 @@ if (isset($_SESSION['id'])) {
                                 <strong class="fs-5"><?php echo $_SESSION['username']; ?></strong>
                             </a>
                             <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
-                                <li><a class="dropdown-item" href="settings.php"><i
-                                            class="bi bi-person-gear"></i> Settings</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li><a id="logout-button" class="dropdown-item" href="#"><i
+                                <li><a id="logout-button" class="dropdown-item" href=""><i
                                             class="bi bi-box-arrow-left"></i> Logout</a></li>
-
                             </ul>
                         </div>
                     <?php else: ?>

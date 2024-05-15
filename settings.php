@@ -47,9 +47,9 @@ if (isset($_SESSION['id'])):
         <div id="error-message" class="text-danger"></div>
         <div id="success-message" class="text-success"></div>
         </div>
-        <button type="submit" class="btn btn-outline-secondary start-end">Confirm</button>
+        <button type="submit" class="btn btn-outline-secondary ms-auto">Confirm</button>
     </form>
-</div>
+
 
 <?php
 endif;
